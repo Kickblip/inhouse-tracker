@@ -1,0 +1,436 @@
+"use server";
+
+import { ImageAnnotatorClient } from "@google-cloud/vision";
+import path from "path";
+import OpenAI from "openai";
+import { useLobbyStore } from "@/stores/useLobbyStore";
+
+const leagueChampions = [
+  "Aatrox",
+  "Ahri",
+  "Akali",
+  "Akshan",
+  "Alistar",
+  "Amumu",
+  "Anivia",
+  "Annie",
+  "Aphelios",
+  "Ashe",
+  "Aurelion Sol",
+  "Azir",
+  "Bard",
+  "Bel'Veth",
+  "Blitzcrank",
+  "Brand",
+  "Braum",
+  "Briar",
+  "Caitlyn",
+  "Camille",
+  "Cassiopeia",
+  "Cho'Gath",
+  "Corki",
+  "Darius",
+  "Diana",
+  "Dr. Mundo",
+  "Draven",
+  "Ekko",
+  "Elise",
+  "Evelynn",
+  "Ezreal",
+  "Fiddlesticks",
+  "Fiora",
+  "Fizz",
+  "Galio",
+  "Gangplank",
+  "Garen",
+  "Gnar",
+  "Gragas",
+  "Graves",
+  "Gwen",
+  "Hecarim",
+  "Heimerdinger",
+  "Illaoi",
+  "Irelia",
+  "Ivern",
+  "Janna",
+  "Jarvan IV",
+  "Jax",
+  "Jayce",
+  "Jhin",
+  "Jinx",
+  "Kai'Sa",
+  "Kalista",
+  "Karma",
+  "Karthus",
+  "Kassadin",
+  "Katarina",
+  "Kayle",
+  "Kayn",
+  "Kennen",
+  "Kha'Zix",
+  "Kindred",
+  "Kled",
+  "Kog'Maw",
+  "K'Sante",
+  "LeBlanc",
+  "Lee Sin",
+  "Leona",
+  "Lillia",
+  "Lissandra",
+  "Lucian",
+  "Lulu",
+  "Lux",
+  "Malphite",
+  "Malzahar",
+  "Maokai",
+  "Master Yi",
+  "Milio",
+  "Miss Fortune",
+  "Mordekaiser",
+  "Morgana",
+  "Nami",
+  "Nasus",
+  "Nautilus",
+  "Naafiri",
+  "Neeko",
+  "Nidalee",
+  "Nilah",
+  "Nocturne",
+  "Nunu & Willump",
+  "Olaf",
+  "Orianna",
+  "Ornn",
+  "Pantheon",
+  "Poppy",
+  "Pyke",
+  "Qiyana",
+  "Quinn",
+  "Rakan",
+  "Rammus",
+  "Rek'Sai",
+  "Rell",
+  "Renata Glasc",
+  "Renekton",
+  "Rengar",
+  "Riven",
+  "Rumble",
+  "Ryze",
+  "Samira",
+  "Sejuani",
+  "Senna",
+  "Seraphine",
+  "Sett",
+  "Shaco",
+  "Shen",
+  "Shyvana",
+  "Singed",
+  "Sion",
+  "Sivir",
+  "Skarner",
+  "Sona",
+  "Soraka",
+  "Swain",
+  "Sylas",
+  "Syndra",
+  "Tahm Kench",
+  "Taliyah",
+  "Talon",
+  "Taric",
+  "Teemo",
+  "Thresh",
+  "Tristana",
+  "Trundle",
+  "Tryndamere",
+  "Twisted Fate",
+  "Twitch",
+  "Udyr",
+  "Urgot",
+  "Varus",
+  "Vayne",
+  "Veigar",
+  "Vel'Koz",
+  "Vex",
+  "Vi",
+  "Viego",
+  "Viktor",
+  "Vladimir",
+  "Volibear",
+  "Warwick",
+  "Wukong",
+  "Xayah",
+  "Xerath",
+  "Xin Zhao",
+  "Yasuo",
+  "Yone",
+  "Yorick",
+  "Yuumi",
+  "Zac",
+  "Zed",
+  "Zeri",
+  "Ziggs",
+  "Zilean",
+  "Zoe",
+  "Zyra",
+];
+
+export async function file(formData: FormData) {
+  const file = formData.get("file") as File;
+  console.log("File name:", file.name, "| File size:", file.size);
+
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const keyFilename = path.join(
+      process.cwd(),
+      process.env.CLOUD_VISION_CREDENTIALS_NAME!
+    );
+    // const client = new ImageAnnotatorClient({
+    //   keyFilename,
+    // });
+
+    // const [result] = await client.textDetection({ image: { content: buffer } });
+    // const detections = result.textAnnotations;
+
+    // if (!detections || detections.length === 0) {
+    //   console.log("No text found in image.");
+    //   return;
+    // }
+
+    // console.log("Text found:");
+    // console.log(detections[0].description);
+
+    const textResult = await analyzeImage(buffer, keyFilename);
+    console.log("========================");
+
+    const openai = new OpenAI();
+
+    const response = await openai.responses.create({
+      // model: "gpt-4o-mini-2024-07-18",
+      // model: "gpt-4o-mini-2024-07-18",
+      model: "gpt-4.1-mini-2025-04-14",
+      input: [
+        {
+          role: "system",
+          content:
+            "You are extracting League of Legends post-game stats from an OCR reading. You must be careful to not include champion names in the players' usernames. Usernames will not include the name of a champion from League of Legends. If the text contains the name of a champion from League of Legends, it is the champion name, not the username.",
+          //   content: `You are extracting League of Legends post-game stats from an OCR reading. \n
+          //     Important: We have a list of champion names in League of Legends. \n
+          //     ========================= \n
+          //     ${leagueChampions.join("\n")} \n
+          //     ========================= \n
+          //     You must be careful to not include champion names in the player username.
+          //     Player usernames will not contain these champion names. \n`,
+        },
+        {
+          role: "user",
+          content: textResult.rowTexts.join("\n"),
+        },
+      ],
+      text: {
+        format: {
+          type: "json_schema",
+          name: "lobby",
+          schema: {
+            type: "object",
+            properties: {
+              winning_team: {
+                type: "integer",
+                enum: [1, 2],
+              },
+              team_1_kills: {
+                type: "integer",
+              },
+              team_1_deaths: {
+                type: "integer",
+              },
+              team_1_assists: {
+                type: "integer",
+              },
+              team_1_gold: {
+                type: "integer",
+              },
+              team_2_kills: {
+                type: "integer",
+              },
+              team_2_deaths: {
+                type: "integer",
+              },
+              team_2_assists: {
+                type: "integer",
+              },
+              team_2_gold: {
+                type: "integer",
+              },
+              players: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    username: {
+                      type: "string",
+                    },
+                    team: {
+                      type: "integer",
+                      enum: [1, 2],
+                    },
+                    champion: {
+                      type: "string",
+                    },
+                    level: {
+                      type: "integer",
+                    },
+                    kills: {
+                      type: "integer",
+                    },
+                    deaths: {
+                      type: "integer",
+                    },
+                    assists: {
+                      type: "integer",
+                    },
+                    damage: {
+                      type: "integer",
+                    },
+                    gold: {
+                      type: "integer",
+                    },
+                    gold_per_minute: {
+                      type: "integer",
+                    },
+                  },
+                  required: [
+                    "username",
+                    "team",
+                    "champion",
+                    "level",
+                    "kills",
+                    "deaths",
+                    "assists",
+                    "damage",
+                    "gold",
+                    "gold_per_minute",
+                  ],
+                  additionalProperties: false,
+                },
+                additionalProperties: false,
+              },
+            },
+            required: [
+              "winning_team",
+              "team_1_kills",
+              "team_1_deaths",
+              "team_1_assists",
+              "team_1_gold",
+              "team_2_kills",
+              "team_2_deaths",
+              "team_2_assists",
+              "team_2_gold",
+              "players",
+            ],
+            additionalProperties: false,
+          },
+        },
+      },
+    });
+
+    const event = JSON.parse(response.output_text);
+    return event;
+  } catch (error) {
+    console.error("Error detecting text:", error);
+  }
+}
+
+interface WordData {
+  text: string;
+  boundingBox: {
+    minX: number;
+    maxX: number;
+    minY: number;
+    maxY: number;
+  };
+  avgX: number;
+  avgY: number;
+}
+
+interface OcrResult {
+  rows: WordData[][];
+  rowTexts: string[];
+}
+
+export async function analyzeImage(
+  buffer: Buffer,
+  keyFilename: string
+): Promise<OcrResult> {
+  const client = new ImageAnnotatorClient({ keyFilename });
+
+  const [result] = await client.textDetection({ image: { content: buffer } });
+  const detections = result.textAnnotations;
+
+  if (!detections || detections.length === 0) {
+    console.log("No text found in image.");
+    return {
+      rows: [],
+      rowTexts: [],
+    };
+  }
+
+  const words = detections.slice(1);
+
+  const wordData: WordData[] = words.map((det) => {
+    const desc = det.description || "";
+    const verts = det.boundingPoly?.vertices || [];
+
+    const xVals = verts.map((v) => v.x ?? 0);
+    const yVals = verts.map((v) => v.y ?? 0);
+
+    const minX = Math.min(...xVals);
+    const maxX = Math.max(...xVals);
+    const minY = Math.min(...yVals);
+    const maxY = Math.max(...yVals);
+
+    const avgX = (minX + maxX) / 2;
+    const avgY = (minY + maxY) / 2;
+
+    return {
+      text: desc,
+      boundingBox: { minX, maxX, minY, maxY },
+      avgX,
+      avgY,
+    };
+  });
+
+  wordData.sort((a, b) => a.avgY - b.avgY);
+
+  const rowThreshold = 15;
+  const rows: WordData[][] = [];
+  let currentRow: WordData[] = [];
+
+  let lastY = wordData.length > 0 ? wordData[0].avgY : 0;
+
+  for (let i = 0; i < wordData.length; i++) {
+    const w = wordData[i];
+    if (Math.abs(w.avgY - lastY) < rowThreshold) {
+      currentRow.push(w);
+    } else {
+      if (currentRow.length > 0) {
+        rows.push(currentRow);
+      }
+      currentRow = [w];
+    }
+    lastY = w.avgY;
+  }
+  if (currentRow.length > 0) {
+    rows.push(currentRow);
+  }
+
+  rows.forEach((row) => {
+    row.sort((a, b) => a.avgX - b.avgX);
+  });
+
+  const rowTexts = rows.map((row) => row.map((w) => w.text).join(" "));
+
+  return {
+    rows,
+    rowTexts,
+  };
+}
