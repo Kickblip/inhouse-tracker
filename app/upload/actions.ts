@@ -11,7 +11,7 @@ export async function file(formData: FormData) {
   try {
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
-    const keyFilename = path.join(process.cwd(), process.env.CLOUD_VISION_CREDENTIALS_NAME!)
+    const keyFilename = path.join(process.cwd(), JSON.parse(process.env.GCP_CREDENTIALS!))
 
     const textResult = await analyzeImage(buffer, keyFilename)
     console.log("========================")
