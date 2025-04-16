@@ -11,10 +11,7 @@ export async function file(formData: FormData) {
   try {
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
-    const keyFilename = path.join(process.cwd(), JSON.parse(process.env.CLOUD_VISION_CREDENTIALS!))
-
-    const textResult = await analyzeImage(buffer, keyFilename)
-    console.log("========================")
+    const textResult = await analyzeImage(buffer)
 
     const openai = new OpenAI()
 
@@ -164,8 +161,15 @@ interface OcrResult {
   rowTexts: string[]
 }
 
-export async function analyzeImage(buffer: Buffer, keyFilename: string): Promise<OcrResult> {
-  const client = new ImageAnnotatorClient({ keyFilename })
+export async function analyzeImage(buffer: Buffer): Promise<OcrResult> {
+  const gcpCredentials = JSON.parse(process.env.CLOUD_VISION_CREDENTIALS!)
+  const client = new ImageAnnotatorClient({
+    credentials: {
+      client_email: gcpCredentials.client_email,
+      private_key: gcpCredentials.private_key,
+    },
+    projectId: gcpCredentials.project_id,
+  })
 
   const [result] = await client.textDetection({ image: { content: buffer } })
   const detections = result.textAnnotations
