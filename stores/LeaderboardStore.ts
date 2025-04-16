@@ -13,9 +13,7 @@ export const useLeaderboardStore = create<LeaderboardStore>((set, get) => ({
   loading: true,
   error: null,
   fetchLeaderboard: async () => {
-    // Optional: Only fetch if we have no data yet
     if (get().players.length > 0) {
-      // Already have players loaded, skip re-fetch if you want
       return
     }
     set({ loading: true, error: null })
