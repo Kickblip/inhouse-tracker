@@ -1,7 +1,6 @@
 "use server"
 
 import { ImageAnnotatorClient } from "@google-cloud/vision"
-import path from "path"
 import OpenAI from "openai"
 
 export async function file(formData: FormData) {
