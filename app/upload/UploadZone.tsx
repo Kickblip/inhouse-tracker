@@ -1,65 +1,62 @@
-"use client";
+"use client"
 
-import React from "react";
-import { useLobbyStore } from "@/stores/useLobbyStore";
-import { file } from "./actions";
+import React from "react"
+import { useLobbyStore } from "@/stores/useLobbyStore"
+import { file } from "./actions"
 
 export default function UploadPage() {
-  const setLobby = useLobbyStore((state) => state.setLobby);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
+  const setLobby = useLobbyStore((state) => state.setLobby)
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [error, setError] = React.useState<string | null>(null)
 
-  const [uploadedImage, setUploadedImage] = React.useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = React.useState<string | null>(null);
+  const [uploadedImage, setUploadedImage] = React.useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = React.useState<string | null>(null)
 
   React.useEffect(() => {
     if (!uploadedImage) {
-      setPreviewUrl(null);
-      return;
+      setPreviewUrl(null)
+      return
     }
-    const objectUrl = URL.createObjectURL(uploadedImage);
-    setPreviewUrl(objectUrl);
+    const objectUrl = URL.createObjectURL(uploadedImage)
+    setPreviewUrl(objectUrl)
 
     return () => {
-      URL.revokeObjectURL(objectUrl);
-    };
-  }, [uploadedImage]);
+      URL.revokeObjectURL(objectUrl)
+    }
+  }, [uploadedImage])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
+    e.preventDefault()
+    setIsLoading(true)
+    setError(null)
 
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(e.currentTarget)
 
-    const lobbyData = await file(formData);
+    const lobbyData = await file(formData)
 
     if (!lobbyData) {
-      setError("Could not parse lobby data.");
-      setIsLoading(false);
-      return;
+      setError("Could not parse lobby data.")
+      setIsLoading(false)
+      return
     }
 
-    setLobby(lobbyData);
+    setLobby(lobbyData)
 
-    const fileFromForm = formData.get("file") as File | null;
+    const fileFromForm = formData.get("file") as File | null
     if (fileFromForm) {
-      setUploadedImage(fileFromForm);
+      setUploadedImage(fileFromForm)
     }
 
-    setIsLoading(false);
-  };
+    setIsLoading(false)
+  }
 
   return (
     <div className="flex flex-col space-y-4 p-4">
       <div className="flex flex-col space-y-1">
-        <h1 className="text-2xl font-bold text-gray-200">
-          Upload Lobby Screenshot
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-200">Upload Lobby Screenshot</h1>
         <p className="text-white opacity-50">
-          Take a screenshot of just the lobby. Do not include your friendslist,
-          wallpaper, or the menu bar at the top of the client. 2Mb max file
-          size.
+          Take a screenshot of just the lobby. Do not include your friendslist, wallpaper, or the menu bar at the top of the
+          client. 2Mb max file size.
         </p>
       </div>
       <form onSubmit={handleSubmit}>
@@ -83,13 +80,9 @@ export default function UploadPage() {
       </form>
       {previewUrl && (
         <div className="mt-4">
-          <img
-            src={previewUrl}
-            alt="Uploaded preview"
-            className="max-w-3xl border border-gray-300"
-          />
+          <img src={previewUrl} alt="Uploaded preview" className="max-w-3xl border border-gray-300" />
         </div>
       )}
     </div>
-  );
+  )
 }

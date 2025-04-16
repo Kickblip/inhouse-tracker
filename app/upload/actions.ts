@@ -1,25 +1,22 @@
-"use server";
+"use server"
 
-import { ImageAnnotatorClient } from "@google-cloud/vision";
-import path from "path";
-import OpenAI from "openai";
+import { ImageAnnotatorClient } from "@google-cloud/vision"
+import path from "path"
+import OpenAI from "openai"
 
 export async function file(formData: FormData) {
-  const file = formData.get("file") as File;
-  console.log("File name:", file.name, "| File size:", file.size);
+  const file = formData.get("file") as File
+  console.log("File name:", file.name, "| File size:", file.size)
 
   try {
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const keyFilename = path.join(
-      process.cwd(),
-      process.env.CLOUD_VISION_CREDENTIALS_NAME!
-    );
+    const arrayBuffer = await file.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
+    const keyFilename = path.join(process.cwd(), process.env.CLOUD_VISION_CREDENTIALS_NAME!)
 
-    const textResult = await analyzeImage(buffer, keyFilename);
-    console.log("========================");
+    const textResult = await analyzeImage(buffer, keyFilename)
+    console.log("========================")
 
-    const openai = new OpenAI();
+    const openai = new OpenAI()
 
     const response = await openai.responses.create({
       // model: "gpt-4o-mini-2024-07-18",
@@ -141,106 +138,103 @@ export async function file(formData: FormData) {
           },
         },
       },
-    });
+    })
 
-    const event = JSON.parse(response.output_text);
-    return event;
+    const event = JSON.parse(response.output_text)
+    return event
   } catch (error) {
-    console.error("Error detecting text:", error);
+    console.error("Error detecting text:", error)
   }
 }
 
 interface WordData {
-  text: string;
+  text: string
   boundingBox: {
-    minX: number;
-    maxX: number;
-    minY: number;
-    maxY: number;
-  };
-  avgX: number;
-  avgY: number;
+    minX: number
+    maxX: number
+    minY: number
+    maxY: number
+  }
+  avgX: number
+  avgY: number
 }
 
 interface OcrResult {
-  rows: WordData[][];
-  rowTexts: string[];
+  rows: WordData[][]
+  rowTexts: string[]
 }
 
-export async function analyzeImage(
-  buffer: Buffer,
-  keyFilename: string
-): Promise<OcrResult> {
-  const client = new ImageAnnotatorClient({ keyFilename });
+export async function analyzeImage(buffer: Buffer, keyFilename: string): Promise<OcrResult> {
+  const client = new ImageAnnotatorClient({ keyFilename })
 
-  const [result] = await client.textDetection({ image: { content: buffer } });
-  const detections = result.textAnnotations;
+  const [result] = await client.textDetection({ image: { content: buffer } })
+  const detections = result.textAnnotations
 
   if (!detections || detections.length === 0) {
-    console.log("No text found in image.");
+    console.log("No text found in image.")
     return {
       rows: [],
       rowTexts: [],
-    };
+    }
   }
 
-  const words = detections.slice(1);
+  const words = detections.slice(1)
 
   const wordData: WordData[] = words.map((det) => {
-    const desc = det.description || "";
-    const verts = det.boundingPoly?.vertices || [];
+    const desc = det.description || ""
+    const verts = det.boundingPoly?.vertices || []
 
-    const xVals = verts.map((v) => v.x ?? 0);
-    const yVals = verts.map((v) => v.y ?? 0);
+    const xVals = verts.map((v) => v.x ?? 0)
+    const yVals = verts.map((v) => v.y ?? 0)
 
-    const minX = Math.min(...xVals);
-    const maxX = Math.max(...xVals);
-    const minY = Math.min(...yVals);
-    const maxY = Math.max(...yVals);
+    const minX = Math.min(...xVals)
+    const maxX = Math.max(...xVals)
+    const minY = Math.min(...yVals)
+    const maxY = Math.max(...yVals)
 
-    const avgX = (minX + maxX) / 2;
-    const avgY = (minY + maxY) / 2;
+    const avgX = (minX + maxX) / 2
+    const avgY = (minY + maxY) / 2
 
     return {
       text: desc,
       boundingBox: { minX, maxX, minY, maxY },
       avgX,
       avgY,
-    };
-  });
+    }
+  })
 
-  wordData.sort((a, b) => a.avgY - b.avgY);
+  wordData.sort((a, b) => a.avgY - b.avgY)
 
-  const rowThreshold = 15;
-  const rows: WordData[][] = [];
-  let currentRow: WordData[] = [];
+  const rowThreshold = 15
+  const rows: WordData[][] = []
+  let currentRow: WordData[] = []
 
-  let lastY = wordData.length > 0 ? wordData[0].avgY : 0;
+  let lastY = wordData.length > 0 ? wordData[0].avgY : 0
 
   for (let i = 0; i < wordData.length; i++) {
-    const w = wordData[i];
+    const w = wordData[i]
     if (Math.abs(w.avgY - lastY) < rowThreshold) {
-      currentRow.push(w);
+      currentRow.push(w)
     } else {
       if (currentRow.length > 0) {
-        rows.push(currentRow);
+        rows.push(currentRow)
       }
-      currentRow = [w];
+      currentRow = [w]
     }
-    lastY = w.avgY;
+    lastY = w.avgY
   }
   if (currentRow.length > 0) {
-    rows.push(currentRow);
+    rows.push(currentRow)
   }
 
   rows.forEach((row) => {
-    row.sort((a, b) => a.avgX - b.avgX);
-  });
+    row.sort((a, b) => a.avgX - b.avgX)
+  })
 
-  const rowTexts = rows.map((row) => row.map((w) => w.text).join(" "));
+  const rowTexts = rows.map((row) => row.map((w) => w.text).join(" "))
 
   return {
     rows,
     rowTexts,
-  };
+  }
 }
