@@ -2,9 +2,11 @@
 
 import React from "react";
 import { useLobbyStore } from "@/stores/useLobbyStore";
+import { EditableCell } from "./EditableCell";
 
 export default function StatTable() {
   const lobby = useLobbyStore((state) => state.lobby);
+  const updatePlayerStat = useLobbyStore((state) => state.updatePlayerStat);
 
   if (!lobby) {
     return (
@@ -50,52 +52,28 @@ export default function StatTable() {
         <table className="w-full min-w-[650px] border border-gray-700 divide-y divide-gray-700 text-sm">
           <thead className="bg-gray-700">
             <tr>
-              <th
-                scope="col"
-                className="px-4 py-2 text-left font-medium text-gray-200"
-              >
+              <th className="px-4 py-2 text-left font-medium text-gray-200">
                 Summoner
               </th>
-              <th
-                scope="col"
-                className="px-4 py-2 text-left font-medium text-gray-200"
-              >
+              <th className="px-4 py-2 text-left font-medium text-gray-200">
                 Team
               </th>
-              <th
-                scope="col"
-                className="px-4 py-2 text-left font-medium text-gray-200"
-              >
+              <th className="px-4 py-2 text-left font-medium text-gray-200">
                 Champion
               </th>
-              <th
-                scope="col"
-                className="px-4 py-2 text-center font-medium text-gray-200"
-              >
+              <th className="px-4 py-2 text-center font-medium text-gray-200">
                 Level
               </th>
-              <th
-                scope="col"
-                className="px-4 py-2 text-center font-medium text-gray-200"
-              >
+              <th className="px-4 py-2 text-center font-medium text-gray-200">
                 K
               </th>
-              <th
-                scope="col"
-                className="px-4 py-2 text-center font-medium text-gray-200"
-              >
+              <th className="px-4 py-2 text-center font-medium text-gray-200">
                 D
               </th>
-              <th
-                scope="col"
-                className="px-4 py-2 text-center font-medium text-gray-200"
-              >
+              <th className="px-4 py-2 text-center font-medium text-gray-200">
                 A
               </th>
-              <th
-                scope="col"
-                className="px-4 py-2 text-center font-medium text-gray-200"
-              >
+              <th className="px-4 py-2 text-center font-medium text-gray-200">
                 Damage
               </th>
             </tr>
@@ -109,34 +87,99 @@ export default function StatTable() {
                   className={isWinningTeam ? "bg-green-800" : ""}
                 >
                   <td className="px-4 py-2 font-semibold text-gray-100">
-                    {player.username}
+                    <EditableCell
+                      initialValue={player.username}
+                      onUpdate={(val) =>
+                        updatePlayerStat(player.username, "username", val)
+                      }
+                    />
                   </td>
+
                   <td className="px-4 py-2">
-                    <span
-                      className={`rounded px-2 py-0.5 text-xs font-medium ${
-                        player.team === 1
-                          ? "bg-blue-800 text-blue-200"
-                          : "bg-red-800 text-red-200"
-                      }`}
-                    >
-                      Team {player.team}
-                    </span>
+                    <EditableCell
+                      initialValue={player.team}
+                      onUpdate={(val) =>
+                        updatePlayerStat(
+                          player.username,
+                          "team",
+                          Number(val) || 1
+                        )
+                      }
+                    />
                   </td>
-                  <td className="px-4 py-2 text-gray-100">{player.champion}</td>
-                  <td className="px-4 py-2 text-center text-gray-100">
-                    {player.level}
+
+                  <td className="px-4 py-2 text-gray-100">
+                    <EditableCell
+                      initialValue={player.champion}
+                      onUpdate={(val) =>
+                        updatePlayerStat(player.username, "champion", val)
+                      }
+                    />
                   </td>
+
                   <td className="px-4 py-2 text-center text-gray-100">
-                    {player.kills}
+                    <EditableCell
+                      initialValue={player.level}
+                      onUpdate={(val) =>
+                        updatePlayerStat(
+                          player.username,
+                          "level",
+                          Number(val) || 1
+                        )
+                      }
+                    />
                   </td>
+
                   <td className="px-4 py-2 text-center text-gray-100">
-                    {player.deaths}
+                    <EditableCell
+                      initialValue={player.kills}
+                      onUpdate={(val) =>
+                        updatePlayerStat(
+                          player.username,
+                          "kills",
+                          Number(val) || 0
+                        )
+                      }
+                    />
                   </td>
+
                   <td className="px-4 py-2 text-center text-gray-100">
-                    {player.assists}
+                    <EditableCell
+                      initialValue={player.deaths}
+                      onUpdate={(val) =>
+                        updatePlayerStat(
+                          player.username,
+                          "deaths",
+                          Number(val) || 0
+                        )
+                      }
+                    />
                   </td>
+
                   <td className="px-4 py-2 text-center text-gray-100">
-                    {player.damage}
+                    <EditableCell
+                      initialValue={player.assists}
+                      onUpdate={(val) =>
+                        updatePlayerStat(
+                          player.username,
+                          "assists",
+                          Number(val) || 0
+                        )
+                      }
+                    />
+                  </td>
+
+                  <td className="px-4 py-2 text-center text-gray-100">
+                    <EditableCell
+                      initialValue={player.damage}
+                      onUpdate={(val) =>
+                        updatePlayerStat(
+                          player.username,
+                          "damage",
+                          Number(val) || 0
+                        )
+                      }
+                    />
                   </td>
                 </tr>
               );

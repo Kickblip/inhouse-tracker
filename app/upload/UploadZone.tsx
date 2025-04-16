@@ -51,29 +51,36 @@ export default function UploadPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-4">
-      <label htmlFor="file" className="block font-medium text-gray-700">
-        Photo
-      </label>
-      <input
-        type="file"
-        name="file"
-        id="file"
-        className="border p-2"
-        required
-      />
+    <div className="flex flex-col space-y-4 p-4">
+      <div className="flex flex-col space-y-1">
+        <h1 className="text-2xl font-bold text-gray-200">
+          Upload Lobby Screenshot
+        </h1>
+        <p className="text-white opacity-50">
+          Take a screenshot of just the lobby. Do not include your friendslist,
+          wallpaper, or the menu bar at the top of the client. 2Mb max file
+          size.
+        </p>
+      </div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="file"
+          name="file"
+          id="file"
+          className="bg-gray-800 hover:bg-gray-700 transition duration-200 py-2 px-4 cursor-pointer rounded-l"
+          required
+        />
+        <button
+          type="submit"
+          id="upload"
+          disabled={isLoading}
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 cursor-pointer transition duration-200 text-white rounded-r disabled:bg-gray-400"
+        >
+          {isLoading ? "Analyzing..." : "Upload"}
+        </button>
 
-      <button
-        type="submit"
-        id="upload"
-        disabled={isLoading}
-        className="px-4 py-2 bg-blue-600 text-white rounded disabled:bg-gray-400"
-      >
-        {isLoading ? "Analyzing..." : "Upload"}
-      </button>
-
-      {error && <p className="text-red-600">{error}</p>}
-
+        {error && <p className="text-red-600">{error}</p>}
+      </form>
       {previewUrl && (
         <div className="mt-4">
           <img
@@ -83,20 +90,6 @@ export default function UploadPage() {
           />
         </div>
       )}
-    </form>
+    </div>
   );
 }
-
-// import file from "./actions";
-
-// export default async function UploadZone() {
-//   return (
-//     <form action={file}>
-//       <label htmlFor="file">Photo</label>
-//       <input type="file" name="file" id="file" />
-//       <button type="submit" id="upload">
-//         Upload
-//       </button>
-//     </form>
-//   );
-// }
