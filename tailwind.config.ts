@@ -1,4 +1,6 @@
-module.exports = {
+import type { Config } from "tailwindcss"
+
+const config = {
   theme: {
     extend: {
       fontFamily: {
@@ -6,4 +8,6 @@ module.exports = {
       },
     },
   },
-};
+} satisfies Config
+
+export default config

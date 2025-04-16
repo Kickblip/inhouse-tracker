@@ -1,6 +1,6 @@
 "use client"
 
-import { useLobbyStore } from "@/stores/useLobbyStore"
+import { useLobbyStore } from "@/stores/LobbyStore"
 import { toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 

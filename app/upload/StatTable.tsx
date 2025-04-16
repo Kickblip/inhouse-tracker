@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { useLobbyStore } from "@/stores/useLobbyStore"
+import { useLobbyStore } from "@/stores/LobbyStore"
 import { EditableCell } from "./EditableCell"
 
 export default function StatTable() {

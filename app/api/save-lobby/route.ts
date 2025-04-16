@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
     await sql`
       INSERT INTO lobbies (
         id,
+        created_at,
         winning_team,
         team_1_kills,
         team_1_deaths,
@@ -42,6 +43,7 @@ export async function POST(request: NextRequest) {
         team_2_gold
       ) VALUES (
         ${newLobbyId},
+        NOW(),
         ${winning_team},
         ${team_1_kills},
         ${team_1_deaths},
@@ -55,11 +57,16 @@ export async function POST(request: NextRequest) {
     `
 
     for (const p of players) {
+      const slug = p.username
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "")
       await sql`
         INSERT INTO players (
           id,
           lobby_id,
           username,
+          slug,
           team,
           champion,
           level,
@@ -73,6 +80,7 @@ export async function POST(request: NextRequest) {
           ${uuidv4()},
           ${newLobbyId},
           ${p.username},
+          ${slug},
           ${p.team},
           ${p.champion},
           ${p.level},
