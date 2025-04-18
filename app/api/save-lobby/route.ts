@@ -2,6 +2,20 @@ import { NextResponse } from "next/server"
 import { neon } from "@neondatabase/serverless"
 import { v4 as uuidv4 } from "uuid"
 import { type NextRequest } from "next/server"
+import jsesc from "jsesc"
+
+function URLify(username: string) {
+  const escaped = jsesc(username)
+
+  const ascii_only = escaped.replace(/\\u/g, "%u")
+
+  const formatted = ascii_only
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9%\-]+/g, "")
+
+  return formatted
+}
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
@@ -57,10 +71,8 @@ export async function POST(request: NextRequest) {
     `
 
     for (const p of players) {
-      const slug = p.username
-        .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^a-z0-9-]/g, "")
+      const slug = URLify(p.username)
+
       await sql`
         INSERT INTO players (
           id,
