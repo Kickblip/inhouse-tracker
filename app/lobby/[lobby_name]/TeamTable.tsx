@@ -1,4 +1,6 @@
 import { Player } from "@/types/lobby"
+import { FaUser } from "react-icons/fa6"
+import Link from "next/link"
 
 export default function TeamTable({ players }: { players: Player[] }) {
   return (
@@ -8,10 +10,9 @@ export default function TeamTable({ players }: { players: Player[] }) {
           <th className="py-2 px-4 text-left">Username</th>
           <th className="py-2 px-4 text-left">Champion</th>
           <th className="py-2 px-4 text-left">Level</th>
-          <th className="py-2 px-4 text-left">Kills</th>
-          <th className="py-2 px-4 text-left">Deaths</th>
-          <th className="py-2 px-4 text-left">Assists</th>
+          <th className="py-2 px-4 text-left">KDA</th>
           <th className="py-2 px-4 text-left">Damage</th>
+          <th className="py-2 px-4 text-left"></th>
         </tr>
       </thead>
       <tbody>
@@ -20,10 +21,15 @@ export default function TeamTable({ players }: { players: Player[] }) {
             <td className="py-2 px-4">{player.username}</td>
             <td className="py-2 px-4">{player.champion}</td>
             <td className="py-2 px-4">{player.level}</td>
-            <td className="py-2 px-4">{player.kills}</td>
-            <td className="py-2 px-4">{player.deaths}</td>
-            <td className="py-2 px-4">{player.assists}</td>
+            <td className="py-2 px-4">
+              {player.kills}/{player.deaths}/{player.assists}
+            </td>
             <td className="py-2 px-4">{player.damage}</td>
+            <td className="py-2 px-4">
+              <Link href={`/player/${player.slug}`} className="text-blue-500 transition duration-200 hover:text-blue-700">
+                <FaUser />
+              </Link>
+            </td>
           </tr>
         ))}
       </tbody>

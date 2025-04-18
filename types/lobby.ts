@@ -14,6 +14,8 @@ export interface Player {
 }
 
 export interface Lobby {
+  id: string
+  created_at: Date
   winning_team: 1 | 2
   team_1_kills: number
   team_1_deaths: number
