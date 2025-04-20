@@ -17,7 +17,7 @@ export default function TeamTable({ players }: { players: Player[] }) {
       </thead>
       <tbody>
         {players.map((player) => (
-          <tr key={player.slug} className="border-b border-gray-200 hover:text-pastel-orange">
+          <tr key={player.slug} className="border-b border-gray-600 hover:text-pastel-orange">
             <td className="py-2 px-4">{player.username}</td>
             <td className="py-2 px-4">{player.champion}</td>
             <td className="py-2 px-4">{player.level}</td>

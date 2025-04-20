@@ -22,7 +22,7 @@ export default function MatchHistoryList({ matchHistory }: { matchHistory: Match
             {matchHistory.map((match, index) => {
               const isWin = match.player.team === match.lobby.winning_team
               return (
-                <tr key={index} className="border-b border-gray-200 transition-colors duration-150">
+                <tr key={index} className="border-b border-gray-600 transition-colors duration-150">
                   <td className="py-2 px-4 text-xs font-black">
                     <div className={`rounded p-1 flex item-center justify-center ${isWin ? "bg-green-600" : "bg-red-600"}`}>
                       {isWin ? "WIN" : "LOSS"}

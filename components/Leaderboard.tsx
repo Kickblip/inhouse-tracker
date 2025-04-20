@@ -92,7 +92,7 @@ export default function Leaderboard() {
           </thead>
           <tbody>
             {sortedPlayers.map((player, index) => (
-              <tr key={player.username + index} className="border-b hover:text-pastel-orange border-gray-200">
+              <tr key={player.username + index} className="border-b border-gray-600 hover:text-pastel-orange border-gray-200">
                 <td className="py-2 px-4">{index + 1}</td>
                 <td className="py-2 px-4">{player.username}</td>
                 <td className={`py-2 px-4 ${sortColumn === "kills" ? "text-pastel-orange" : ""}`}>{player.kills}</td>
