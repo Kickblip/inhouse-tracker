@@ -2,17 +2,7 @@
 
 import { User } from "lucide-react"
 import { useState, useEffect } from "react"
-import Link from "next/link"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from "@/components/ui/command"
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { useRouter } from "next/navigation"
 import { useLeaderboardStore } from "@/stores/LeaderboardStore"
 
