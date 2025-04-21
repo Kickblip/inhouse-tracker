@@ -8,6 +8,7 @@ import { useLeaderboardStore } from "@/stores/LeaderboardStore"
 
 export default function UserSearchBar() {
   const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState("")
   const router = useRouter()
 
   const { searchableUsers, fetchLeaderboard } = useLeaderboardStore()
@@ -18,7 +19,16 @@ export default function UserSearchBar() {
 
   return (
     <Command className="relative overflow-visible border md:min-w-[450px] max-w-5xl w-full mx-auto mt-4 mb-2">
-      <CommandInput placeholder="Search for players..." onFocus={() => setOpen(true)} onBlur={() => setOpen(false)} />
+      <CommandInput
+        value={query}
+        placeholder="Search for players..."
+        onFocus={() => setOpen(true)}
+        onBlur={() => setOpen(false)}
+        onValueChange={(v) => {
+          setQuery(v)
+          if (!open) setOpen(true)
+        }}
+      />
       {open && (
         <CommandList className="bg-[#171717] border shadow-md rounded-b-lg absolute left-0 top-full z-20 w-full">
           <CommandEmpty>No results found.</CommandEmpty>

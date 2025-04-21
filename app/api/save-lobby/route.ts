@@ -1,11 +1,11 @@
+export const maxDuration = 30 // Vercel maximum execution time setting (overrides default of 15s)
+
 import { NextResponse } from "next/server"
 import { neon } from "@neondatabase/serverless"
 import { v4 as uuidv4 } from "uuid"
 import { type NextRequest } from "next/server"
 import jsesc from "jsesc"
 import { revalidatePath } from "next/cache"
-
-export const maxDuration = 30 // Vercel maximum execution time setting (overrides default of 15s)
 
 function URLify(username: string) {
   const escaped = jsesc(username)
