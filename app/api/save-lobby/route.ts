@@ -3,6 +3,7 @@ import { neon } from "@neondatabase/serverless"
 import { v4 as uuidv4 } from "uuid"
 import { type NextRequest } from "next/server"
 import jsesc from "jsesc"
+import { revalidatePath } from "next/cache"
 
 function URLify(username: string) {
   const escaped = jsesc(username)
@@ -104,6 +105,7 @@ export async function POST(request: NextRequest) {
           ${p.gold_per_minute}
         )
       `
+      revalidatePath(`/player/${slug}`)
     }
 
     return NextResponse.json({ message: "Lobby saved", lobbyId: newLobbyId }, { status: 200 })
