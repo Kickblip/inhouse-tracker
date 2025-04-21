@@ -8,7 +8,6 @@ export async function GET() {
     const players = await sql`
       SELECT *
       FROM players
-      ORDER BY kills DESC
     `
 
     return NextResponse.json(players, { status: 200 })
