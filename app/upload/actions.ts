@@ -1,7 +1,8 @@
 "use server"
-export const maxDuration = 30 // Vercel maximum execution time setting (overrides default of 15s)
 
 import OpenAI from "openai"
+
+// export const maxDuration = 30 // Vercel maximum execution time setting (overrides default of 15s)
 
 export async function file(formData: FormData) {
   const file = formData.get("file") as File
