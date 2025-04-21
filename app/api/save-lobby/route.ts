@@ -1,5 +1,3 @@
-export const maxDuration = 30 // Vercel maximum execution time setting (overrides default of 15s)
-
 import { NextResponse } from "next/server"
 import { neon } from "@neondatabase/serverless"
 import { v4 as uuidv4 } from "uuid"
