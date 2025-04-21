@@ -5,6 +5,8 @@ import { type NextRequest } from "next/server"
 import jsesc from "jsesc"
 import { revalidatePath } from "next/cache"
 
+export const maxDuration = 30 // Vercel maximum execution time setting (overrides default of 15s)
+
 function URLify(username: string) {
   const escaped = jsesc(username)
 
