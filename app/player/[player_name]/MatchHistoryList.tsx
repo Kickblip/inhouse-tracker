@@ -1,8 +1,16 @@
+"use client"
+
 import Link from "next/link"
 import { MatchHistoryRecord } from "@/types/profile"
 import { FaThList } from "react-icons/fa"
+import { useMemo } from "react"
 
 export default function MatchHistoryList({ matchHistory }: { matchHistory: MatchHistoryRecord[] }) {
+  const sortedMatchHistory = useMemo(
+    () => [...matchHistory].sort((a, b) => new Date(b.lobby.created_at).getTime() - new Date(a.lobby.created_at).getTime()),
+    [matchHistory],
+  )
+
   return (
     <div className="pl-2">
       <h2 className="text-xl font-semibold mb-2">Match History</h2>
@@ -19,10 +27,10 @@ export default function MatchHistoryList({ matchHistory }: { matchHistory: Match
             </tr>
           </thead>
           <tbody>
-            {matchHistory.map((match, index) => {
+            {sortedMatchHistory.map((match, idx) => {
               const isWin = match.player.team === match.lobby.winning_team
               return (
-                <tr key={index} className="border-b border-gray-600 transition-colors duration-150">
+                <tr key={idx} className="border-b border-gray-600 transition-colors duration-150">
                   <td className="py-2 px-4 text-xs font-black">
                     <div className={`rounded p-1 flex item-center justify-center ${isWin ? "bg-green-600" : "bg-red-600"}`}>
                       {isWin ? "WIN" : "LOSS"}
