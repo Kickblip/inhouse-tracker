@@ -1,7 +1,9 @@
-import StatTable from "./StatTable";
-import UploadZone from "./UploadZone";
-import SaveToDBButton from "./SaveToDBButton";
-import Link from "next/link";
+export const maxDuration = 30 // Vercel maximum execution time setting (overrides default of 15s)
+
+import StatTable from "./StatTable"
+import UploadZone from "./UploadZone"
+import SaveToDBButton from "./SaveToDBButton"
+import Link from "next/link"
 
 export default function UploadPage() {
   return (
@@ -15,5 +17,5 @@ export default function UploadPage() {
       </div>
       <StatTable />
     </div>
-  );
+  )
 }
