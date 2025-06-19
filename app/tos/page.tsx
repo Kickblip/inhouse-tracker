@@ -7,8 +7,8 @@ const Terms = () => {
       <div className="w-full max-w-7xl mx-auto p-4 mb-24">
         <strong>Last Updated: 06-30-2024</strong>
         <p>
-          This Terms of Service agreement covers how Inhouse Tracker's ("we," "us," or "our") services should be used, including
-          our website,{" "}
+          This Terms of Service agreement covers how Inhouse Tracker&#39;s (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;)
+          services should be used, including our website,{" "}
           <Link href="https://inhousetracker.com/" className="text-blue-500 underline">
             https://inhousetracker.com/
           </Link>{" "}
