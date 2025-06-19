@@ -4,6 +4,7 @@ import "./globals.css"
 import { ToastContainer } from "react-toastify"
 import UserSearchBar from "@/components/UserSearchBar"
 import { Analytics } from "@vercel/analytics/react"
+import Footer from "@/components/Footer"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <div className="flex flex-col">
           <UserSearchBar />
           {children}
+          <Footer />
         </div>
       </body>
     </html>
