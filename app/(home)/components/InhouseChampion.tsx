@@ -1,5 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from "next/image"
+import Link from "next/link"
+import { FaCrown } from "react-icons/fa6"
 
 export default function InhouseChampion() {
   return (
@@ -17,9 +18,18 @@ export default function InhouseChampion() {
         1
       </span>
 
+      <div
+        className="absolute top-0 left-0 z-30 flex items-center
+                bg-yellow-600 text-white text-sm font-extrabold
+                px-4 py-1.5 rounded-br-lg shadow-lg select-none"
+      >
+        <p>INHOUSE LEAGUE</p>
+        <FaCrown className="w-4 h-4 ml-2" />
+      </div>
+
       <Link href="/ionia">
         <Image
-          src="/ionia-bg.jpg"
+          src="/champion-resources/regions/ionia-swords.jpg"
           alt=""
           fill
           className="object-cover select-none pointer-events-none opacity-40 rounded-lg"
@@ -27,7 +37,7 @@ export default function InhouseChampion() {
         />
 
         <Image
-          src="/riven.png"
+          src="/champion-resources/renders/riven.png"
           alt=""
           width={1191 * 0.6}
           height={670 * 0.6}
@@ -38,7 +48,7 @@ export default function InhouseChampion() {
           priority
         />
 
-        <div className="absolute top-0 left-0 py-6 px-8 text-left text-indigo-100 select-none">
+        <div className="absolute top-0 left-0 py-12 px-8 text-left text-indigo-100 select-none">
           <div className="flex gap-8 items-center">
             <div className="flex flex-col space-y-1">
               <p className="opacity-70 font-bold">Winrate</p>
@@ -49,19 +59,17 @@ export default function InhouseChampion() {
               <h2 className="text-5xl font-extrabold">52</h2>
             </div>
             <div className="flex flex-col space-y-1">
-              <p className="opacity-70 font-bold">Leaderboards</p>
-              <h2 className="text-5xl font-extrabold">3</h2>
+              <p className="opacity-70 font-bold">ILMMR</p>
+              <h2 className="text-5xl font-extrabold">1550</h2>
             </div>
           </div>
         </div>
 
         <div className="absolute bottom-0 left-0 z-20 py-6 px-8 font-[family-name:var(--font-geist-sans)] text-left select-none">
-          <h2 className="opacity-70 text-xl font-bold ml-1">
-            Inhouse Champion
-          </h2>
-          <h3 className="text-8xl font-extrabold">SAIGO</h3>
+          <h2 className="opacity-70 text-xl font-bold ml-1">Inhouse Champion</h2>
+          <h3 className="text-8xl font-extrabold">PLAYER</h3>
         </div>
       </Link>
     </div>
-  );
+  )
 }

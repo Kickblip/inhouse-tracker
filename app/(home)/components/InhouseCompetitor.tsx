@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from "next/image"
+import Link from "next/link"
 
 export default function InhouseCompetitor() {
   return (
@@ -18,7 +18,7 @@ export default function InhouseCompetitor() {
 
       <Link href="/ionia">
         <Image
-          src="/noxus-bg.png"
+          src="/champion-resources/regions/noxus-city.png"
           alt=""
           fill
           className="object-cover select-none pointer-events-none opacity-40 rounded-lg"
@@ -26,7 +26,7 @@ export default function InhouseCompetitor() {
         />
 
         <Image
-          src="/rengar.png"
+          src="/champion-resources/renders/rengar.png"
           alt=""
           width={640 * 0.7}
           height={378 * 0.7}
@@ -48,19 +48,17 @@ export default function InhouseCompetitor() {
               <h2 className="text-xl font-extrabold">52</h2>
             </div>
             <div className="flex flex-col">
-              <p className="opacity-70 text-xs font-bold">Leaderboards</p>
-              <h2 className="text-xl font-extrabold">3</h2>
+              <p className="opacity-70 text-xs font-bold">ILMMR</p>
+              <h2 className="text-xl font-extrabold">1430</h2>
             </div>
           </div>
         </div>
 
         <div className="absolute bottom-0 left-0 py-3 px-8 font-[family-name:var(--font-geist-sans)] text-left select-none">
-          <h2 className="opacity-70 text-lg font-bold ml-1">
-            Inhouse Competitor
-          </h2>
-          <h3 className="text-7xl font-extrabold">MARCATO</h3>
+          <h2 className="opacity-70 text-lg font-bold ml-1">Inhouse Competitor</h2>
+          <h3 className="text-7xl font-extrabold">PLAYER</h3>
         </div>
       </Link>
     </div>
-  );
+  )
 }

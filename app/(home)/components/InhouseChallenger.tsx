@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from "next/image"
+import Link from "next/link"
 
 export default function InhouseChallenger() {
   return (
@@ -19,7 +19,7 @@ export default function InhouseChallenger() {
 
       <Link href="/ionia">
         <Image
-          src="/jungle-bg.png"
+          src="/champion-resources/regions/jungle-generic.png"
           alt=""
           fill
           className="object-cover select-none pointer-events-none opacity-40 rounded-lg"
@@ -27,7 +27,7 @@ export default function InhouseChallenger() {
         />
 
         <Image
-          src="/caitlyn.png"
+          src="/champion-resources/renders/caitlyn.png"
           alt=""
           width={1600 * 0.25}
           height={900 * 0.25}
@@ -41,8 +41,8 @@ export default function InhouseChallenger() {
         <div className="absolute top-0 right-0 py-3 px-8 text-right text-white select-none">
           <div className="flex gap-8 items-center">
             <div className="flex flex-col">
-              <p className="opacity-70 text-xs font-bold">Leaderboards</p>
-              <h2 className="text-xl font-extrabold">3</h2>
+              <p className="opacity-70 text-xs font-bold">ILMMR</p>
+              <h2 className="text-xl font-extrabold">1470</h2>
             </div>
             <div className="flex flex-col">
               <p className="opacity-70 text-xs font-bold">Winrate</p>
@@ -57,9 +57,9 @@ export default function InhouseChallenger() {
 
         <div className="absolute bottom-0 right-0 py-3 px-8 font-[family-name:var(--font-geist-sans)] text-right select-none">
           <h2 className="opacity-70 text-lg font-bold">Inhouse Challenger</h2>
-          <h3 className="text-7xl font-extrabold">JULY</h3>
+          <h3 className="text-7xl font-extrabold">PLAYER</h3>
         </div>
       </Link>
     </div>
-  );
+  )
 }
