@@ -41,16 +41,16 @@ export default function InhouseChallenger() {
         <div className="absolute top-0 right-0 py-3 px-8 text-right text-white select-none">
           <div className="flex gap-8 items-center">
             <div className="flex flex-col">
-              <p className="opacity-70 text-xs font-bold">ILMMR</p>
-              <h2 className="text-xl font-extrabold">1470</h2>
+              <p className="opacity-70 text-sm font-bold">ILMMR</p>
+              <h2 className="text-2xl font-extrabold">1470</h2>
             </div>
             <div className="flex flex-col">
-              <p className="opacity-70 text-xs font-bold">Winrate</p>
-              <h2 className="text-xl font-extrabold">72%</h2>
+              <p className="opacity-70 text-sm font-bold">Winrate</p>
+              <h2 className="text-2xl font-extrabold">72%</h2>
             </div>
             <div className="flex flex-col">
-              <p className="opacity-70 text-xs font-bold">Played</p>
-              <h2 className="text-xl font-extrabold">52</h2>
+              <p className="opacity-70 text-sm font-bold">Played</p>
+              <h2 className="text-2xl font-extrabold">52</h2>
             </div>
           </div>
         </div>

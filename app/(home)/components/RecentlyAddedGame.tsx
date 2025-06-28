@@ -37,11 +37,13 @@ export default function RecentlyAddedGame() {
   return (
     <div
       className="
-        relative w-full h-80 rounded-lg bg-slate-900
+        relative w-full h-80 rounded-lg bg-slate-900/50
         before:absolute before:inset-y-0 before:left-0 before:w-2
         before:rounded-l before:bg-blue-500 before:content-['']
         after:absolute after:inset-y-0 after:right-0 after:w-2
         after:rounded-r after:bg-red-500 after:content-['']
+       
+       
         "
     >
       <div className="py-3 px-6 flex flex-col gap-2 h-full">
