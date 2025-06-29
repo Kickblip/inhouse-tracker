@@ -14,12 +14,11 @@ export default function NavBar() {
         <Link href="/" className="opacity-90 hover:opacity-100 transition-all duration-200">
           Leaderboards
         </Link>
-        <Link href="/about" className="opacity-90 hover:opacity-100 transition-all duration-200">
+        <Link href="/club-stats" className="opacity-90 hover:opacity-100 transition-all duration-200">
           Club Stats
         </Link>
-
         <Link href="/contact" className="opacity-90 hover:opacity-100 transition-all duration-200">
-          Players
+          Tournaments
         </Link>
       </div>
       <Link
