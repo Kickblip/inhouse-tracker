@@ -29,6 +29,13 @@ export default function RootLayout({
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <NavBar />
+          <div
+            className="pointer-events-none fixed inset-x-0 top-0 -z-10
+                      bg-[url(/champion-resources/regions/targon-gate.jpg)]
+                      h-[80vh] bg-cover bg-center opacity-50
+                      [mask-image:linear-gradient(to_bottom,black_20%,transparent)]
+                      [webkit-mask-image:linear-gradient(to_bottom,black_20%,transparent)]"
+          />
           {children}
         </body>
       </html>
