@@ -1,10 +1,12 @@
 import Image from "next/image"
 import Link from "next/link"
-import { SiRiotgames } from "react-icons/si"
+import SignInButton from "./SignInButton"
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
+import ImportGameButton from "./ImportGameButton"
 
 export default function NavBar() {
   return (
-    <nav className="flex items-center justify-between p-4 max-w-7xl mx-auto font-bold text-md font-[family-name:var(--font-geist-sans)]">
+    <nav className="flex items-center justify-between p-4 max-w-7xl w-full mx-auto font-bold text-md font-[family-name:var(--font-geist-sans)]">
       <div className="flex items-center gap-12">
         <Link href="/" className="flex items-center gap-4 select-none">
           <Image src="/logo.png" alt="Logo" width={46} height={46} />
@@ -14,20 +16,20 @@ export default function NavBar() {
         <Link href="/" className="opacity-90 hover:opacity-100 transition-all duration-200">
           Leaderboards
         </Link>
-        <Link href="/club-stats" className="opacity-90 hover:opacity-100 transition-all duration-200">
+        <Link href="/club/stats" className="opacity-90 hover:opacity-100 transition-all duration-200">
           Club Stats
         </Link>
         <Link href="/contact" className="opacity-90 hover:opacity-100 transition-all duration-200">
           Tournaments
         </Link>
       </div>
-      <Link
-        href="/signin"
-        className="px-6 py-2 flex items-center bg-indigo-800 text-white rounded hover:bg-indigo-700 transition-colors duration-200"
-      >
-        <p>Sign in</p>
-        <SiRiotgames className="ml-2" />
-      </Link>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+        <ImportGameButton />
+      </SignedIn>
     </nav>
   )
 }
