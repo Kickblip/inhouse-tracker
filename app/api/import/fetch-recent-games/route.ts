@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server"
-import { currentUser, auth, clerkClient } from "@clerk/nextjs/server"
+import { auth, clerkClient } from "@clerk/nextjs/server"
+import { MatchMetadata } from "@/types/Match"
+import { toMatchMetadata } from "./helpers"
+
+const RIOT_ROOT = "https://americas.api.riotgames.com/lol/rso-match/v1"
 
 export async function GET() {
   const { userId } = await auth()
@@ -7,7 +11,6 @@ export async function GET() {
   if (!userId) {
     return new NextResponse("Unauthorized", { status: 401 })
   }
-  const user = await currentUser()
 
   const client = await clerkClient()
 
@@ -17,7 +20,7 @@ export async function GET() {
 
   console.log("Access Token:", accessToken)
 
-  const idsRes = await fetch(`https://americas.api.riotgames.com/lol/rso-match/v1/matches/ids?start=0&count=5`, {
+  const idsRes = await fetch(`${RIOT_ROOT}/matches/ids?start=0&count=5`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   })
   if (!idsRes.ok) {
@@ -26,13 +29,15 @@ export async function GET() {
   }
   const matchIds: string[] = await idsRes.json()
 
-  const matches = await Promise.all(
+  const rawMatches = await Promise.all(
     matchIds.map((id) =>
-      fetch(`https://americas.api.riotgames.com/lol/rso-match/v1/matches/${id}`, {
+      fetch(`${RIOT_ROOT}/matches/${id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       }).then((r) => (r.ok ? r.json() : null)),
     ),
   )
 
-  return NextResponse.json({ matches }, { status: 200 })
+  const formatted: MatchMetadata[] = rawMatches.filter(Boolean).map(toMatchMetadata)
+
+  return NextResponse.json({ matches: formatted }, { status: 200 })
 }

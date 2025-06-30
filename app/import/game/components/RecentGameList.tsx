@@ -4,6 +4,7 @@ import ErrorComp from "@/app/shared/Error"
 import Loading from "@/app/shared/Loading"
 import { MatchMetadata } from "@/types/Match"
 import { useState, useEffect } from "react"
+import RecentGame from "./RecentGame"
 
 export default function RecentGameList() {
   const [matches, setMatches] = useState<null | MatchMetadata[]>(null)
@@ -32,10 +33,9 @@ export default function RecentGameList() {
   if (!matches?.length) return <ErrorComp error={error} />
 
   return (
-    <div>
-      <ul className="space-y-2">
-        {matches.map((match) => match && <div className="w-full rounded-lg h-15 bg-slate-900"></div>)}
-      </ul>
+    <div className="w-full">
+      <h1 className="text-3xl w-full text-left font-bold mb-4">Your recent games</h1>
+      <ul className="space-y-2">{matches.map((match) => match && <RecentGame key={match.matchId} match={match} />)}</ul>
     </div>
   )
 }
