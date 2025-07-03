@@ -24,7 +24,7 @@ export function toParticipant(p: any): ParticipantPerformancePreview {
     deaths: p.deaths,
     assists: p.assists,
     kda: p.kda,
-    killParticipation: p.challenges?.killParticipation ?? 0,
+    killParticipation: p.challenges.killParticipation,
     totalDamageDealtToChampions: p.totalDamageDealtToChampions,
     visionScore: p.visionScore,
   }
@@ -37,15 +37,15 @@ export function toMatchMetadata(raw: any): MatchMetadata {
 
   return {
     dataVersion: metadata.dataVersion,
-    gameEndedInEarlySurrender: info.participants.some((p: any) => p.teamEarlySurrendered),
-    gameEndedInSurrender: info.participants.some((p: any) => p.gameEndedInSurrender),
+    gameEndedInEarlySurrender: info.participants[0].gameEndedInEarlySurrender,
+    gameEndedInSurrender: info.participants[0].gameEndedInSurrender,
     gameMode: info.gameMode,
     gameName: info.gameName,
     gameType: info.gameType,
     gameVersion: info.gameVersion,
     matchId: metadata.matchId,
     participants,
-    perfectGame: Number(info.participants.every((p: any) => p.deaths === 0)),
+    perfectGame: info.participants[0].perfectGame,
     timestamps: {
       gameCreation: info.gameCreation,
       gameDuration: info.gameDuration,

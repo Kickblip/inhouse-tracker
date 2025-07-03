@@ -1,5 +1,4 @@
-export interface Match {
-  metadata: MatchMetadata
+export interface Match extends MatchMetadata {
   participants: ParticipantPerformanceFull[]
 }
 

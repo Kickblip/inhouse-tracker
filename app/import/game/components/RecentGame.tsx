@@ -1,6 +1,14 @@
 import { MatchMetadata, ParticipantPerformancePreview } from "@/types/Match"
 
-export default function RecentGame({ match }: { match: MatchMetadata }) {
+export default function RecentGame({
+  match,
+  selected,
+  onSelect,
+}: {
+  match: MatchMetadata
+  selected: boolean
+  onSelect: () => void
+}) {
   const secondsToDurationString = (raw: number) => {
     const m = Math.floor(raw / 60)
     const s = raw % 60
@@ -32,13 +40,15 @@ export default function RecentGame({ match }: { match: MatchMetadata }) {
 
   return (
     <div
-      className="
-        relative w-full rounded-lg bg-slate-900/50
+      onClick={onSelect}
+      className={`relative w-full rounded-lg bg-slate-900/50
         before:absolute before:inset-y-0 before:left-0 before:w-2
-        before:rounded-l before:bg-blue-500 before:content-['']
+        before:rounded-l before:content-[''] cursor-pointer
+        ${selected ? "before:bg-yellow-500" : "before:bg-blue-500"}
         after:absolute after:inset-y-0 after:right-0 after:w-2
-        after:rounded-r after:bg-red-500 after:content-['']
-        "
+        after:rounded-r after:content-['']
+        ${selected ? "after:bg-yellow-500" : "after:bg-red-500"}
+        ${selected ? "border border-yellow-500" : "border border-transparent"}`}
     >
       <div className="p-6 flex flex-col gap-2">
         <div className="mb-4 flex flex-col gap-1 flex-row items-center justify-between">
