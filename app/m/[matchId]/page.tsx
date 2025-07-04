@@ -15,8 +15,8 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function MatchPage({ params }: { params: { matchId: string } }) {
-  const { matchId } = params
+export default async function MatchPage({ params }: { params: Promise<{ matchId: string }> }) {
+  const { matchId } = await params
   const response = await getMatch(matchId)
   const match = response.data as Match
 

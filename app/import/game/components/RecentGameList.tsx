@@ -23,8 +23,12 @@ export default function RecentGameList() {
         if (!res.ok) throw new Error(`Request failed: ${res.status}`)
         const data = await res.json()
         setMatches(data.matches)
-      } catch (err: any) {
-        setError(err.message)
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message)
+        } else {
+          setError(String(err))
+        }
       } finally {
         setLoading(false)
       }
@@ -47,8 +51,12 @@ export default function RecentGameList() {
       if (!res.ok) throw new Error(`Import failed: ${res.status}`)
 
       router.push(`/m/${matchId}`)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+      } else {
+        setError(String(err))
+      }
     } finally {
       if (error) {
         setLoading(false)

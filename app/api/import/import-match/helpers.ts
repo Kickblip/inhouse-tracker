@@ -1,5 +1,6 @@
 import { Match, ParticipantPerformanceFull } from "@/types/Match"
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const get = <T>(p: any, key: string, fallback: T): T => (p as any)[key] ?? p.challenges?.[key] ?? fallback
 
 export function toParticipant(p: any): ParticipantPerformanceFull {
@@ -13,11 +14,18 @@ export function toParticipant(p: any): ParticipantPerformanceFull {
     riotIdGameName: get(p, "riotIdGameName", ""),
     riotIdTagline: get(p, "riotIdTagline", ""),
     individualPosition: get(p, "individualPosition", ""),
+    item0: get(p, "item0", 0),
+    item1: get(p, "item1", 0),
+    item2: get(p, "item2", 0),
+    item3: get(p, "item3", 0),
+    item4: get(p, "item4", 0),
+    item5: get(p, "item5", 0),
+    item6: get(p, "item6", 0),
     role: get(p, "role", ""),
     lane: get(p, "lane", ""),
     teamPosition: get(p, "teamPosition", ""),
     championName: get(p, "championName", ""),
-    championLevel: get(p, "championLevel", 0),
+    championLevel: get(p, "champLevel", 0),
     championId: get(p, "championId", 0),
     totalMinionsKilled: get(p, "totalMinionsKilled", 0),
     goldEarned: get(p, "goldEarned", 0),
@@ -222,3 +230,4 @@ export async function fetchWithRetry(url: string, opts: RequestInit, retries = 3
   }
   throw new Error("Exceeded retry budget (429)")
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
