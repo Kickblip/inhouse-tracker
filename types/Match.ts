@@ -1,6 +1,10 @@
+import { ObjectId } from "mongodb"
+
 export interface Match extends MatchMetadata {
   participants: ParticipantPerformanceFull[]
 }
+
+export type DbMatch = Match & { _id: ObjectId }
 
 export interface MatchMetadata {
   dataVersion: string

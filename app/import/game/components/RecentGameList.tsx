@@ -6,12 +6,15 @@ import { MatchMetadata } from "@/types/Match"
 import { useState, useEffect } from "react"
 import RecentGame from "./RecentGame"
 import ImportMatchButton from "./ImportMatchButton"
+import { useRouter } from "next/navigation"
 
 export default function RecentGameList() {
   const [matches, setMatches] = useState<null | MatchMetadata[]>(null)
   const [error, setError] = useState<null | string>(null)
   const [loading, setLoading] = useState(true)
   const [selectedMatchId, setSelectedMatchId] = useState<null | string>(null)
+
+  const router = useRouter()
 
   useEffect(() => {
     async function loadGames() {
@@ -42,10 +45,15 @@ export default function RecentGameList() {
         body: JSON.stringify({ matchId }),
       })
       if (!res.ok) throw new Error(`Import failed: ${res.status}`)
+
+      router.push(`/m/${matchId}`)
     } catch (err: any) {
       setError(err.message)
     } finally {
-      setLoading(false)
+      if (error) {
+        setLoading(false)
+      }
+      setLoading(true)
     }
   }
 

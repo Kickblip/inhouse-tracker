@@ -2,11 +2,15 @@ import { NextResponse, NextRequest } from "next/server"
 import { auth, clerkClient } from "@clerk/nextjs/server"
 import { Match } from "@/types/Match"
 import { toMatch, fetchWithRetry } from "./helpers"
+import clientPromise from "@/lib/mongodb"
+import { revalidatePath } from "next/cache"
 
 const RIOT_ROOT = "https://americas.api.riotgames.com/lol/rso-match/v1"
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth()
+  const mongodb = await clientPromise
+  const collection = mongodb.db("match_service").collection("matches")
 
   if (!userId) {
     return new NextResponse("Unauthorized", { status: 401 })
@@ -35,7 +39,18 @@ export async function POST(req: NextRequest) {
 
   const formattedMatch: Match = toMatch(matchData)
 
-  console.log(formattedMatch)
+  const existingMatch = await collection.findOne({ matchId: formattedMatch.matchId })
+  if (existingMatch) {
+    console.error("Match already exists in the database:", formattedMatch.matchId)
+    return NextResponse.json({ error: "Match already exists" }, { status: 409 })
+  }
+
+  const insertResult = await collection.insertOne(formattedMatch)
+  if (!insertResult.acknowledged) {
+    console.error("Failed to insert match into database:", formattedMatch.matchId)
+    return NextResponse.json({ error: "Failed to insert match into database" }, { status: 500 })
+  }
+  revalidatePath(`/m/${formattedMatch.matchId}`)
 
   return NextResponse.json({ status: 200 })
 }
