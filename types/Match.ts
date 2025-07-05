@@ -35,6 +35,7 @@ export interface ParticipantPerformancePreview {
   riotIdGameName: string
   riotIdTagline: string
   individualPosition: string
+  profileIcon: number
   item0: number
   item1: number
   item2: number

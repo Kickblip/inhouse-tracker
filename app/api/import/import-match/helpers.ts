@@ -14,6 +14,7 @@ export function toParticipant(p: any): ParticipantPerformanceFull {
     riotIdGameName: get(p, "riotIdGameName", ""),
     riotIdTagline: get(p, "riotIdTagline", ""),
     individualPosition: get(p, "individualPosition", ""),
+    profileIcon: get(p, "profileIcon", 0),
     item0: get(p, "item0", 0),
     item1: get(p, "item1", 0),
     item2: get(p, "item2", 0),
