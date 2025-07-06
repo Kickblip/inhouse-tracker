@@ -1,0 +1,12 @@
+https://ddragon.leagueoflegends.com/cdn/{VERSION}/img/profileicon/{ID}.png
+
+https://ddragon.leagueoflegends.com/cdn/{VERSION}/img/item/{ID}.png
+
+https://ddragon.leagueoflegends.com/cdn/{VERSION}/img/champion/{NAME}.png
+
+
+data dragon:
+https://riot-api-libraries.readthedocs.io/en/latest/ddragon.html
+
+
+Summoner spell icons
