@@ -41,3 +41,9 @@ export async function getMatch(match_id: string) {
     return { success: false, error: errorMessage }
   }
 }
+
+export const secondsToDurationString = (raw: number) => {
+  const m = Math.floor(raw / 60)
+  const s = raw % 60
+  return `${m}:${s.toString().padStart(2, "0")}`
+}
