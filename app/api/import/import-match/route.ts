@@ -9,14 +9,14 @@ const RIOT_ROOT = "https://americas.api.riotgames.com/lol/rso-match/v1"
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth()
-  const mongodb = await clientPromise
-  const collection = mongodb.db("match_service").collection("matches")
 
   if (!userId) {
     return new NextResponse("Unauthorized", { status: 401 })
   }
 
   const { matchId } = await req.json()
+  const mongodb = await clientPromise
+  const collection = mongodb.db("match_service").collection("matches")
 
   if (typeof matchId !== "string" || !matchId.trim()) {
     return NextResponse.json({ error: "Invalid matchId" }, { status: 400 })

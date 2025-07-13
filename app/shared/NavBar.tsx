@@ -17,11 +17,15 @@ export default function NavBar() {
         <Link href="/leaderboards" className="opacity-90 hover:opacity-100 transition-all duration-200">
           Leaderboards
         </Link>
-        <Link href="/club/stats" className="opacity-90 hover:opacity-100 transition-all duration-200">
+        {/* <Link href="/club/stats" className="opacity-90 hover:opacity-100 transition-all duration-200">
           Club Stats
-        </Link>
-        <Link href="/contact" className="opacity-90 hover:opacity-100 transition-all duration-200">
-          Tournaments
+        </Link> */}
+        <Link
+          href="https://guesser.inhousetracker.com"
+          className="opacity-90 hover:opacity-100 transition-all duration-200"
+          target="_blank"
+        >
+          LoL Guesser
         </Link>
         <Link href="/docs" className="opacity-90 hover:opacity-100 transition-all duration-200">
           Docs
