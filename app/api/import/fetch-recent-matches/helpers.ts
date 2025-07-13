@@ -29,6 +29,7 @@ export function toParticipant(p: any): ParticipantPerformancePreview {
     championLevel: get(p, "champLevel", 0),
     championId: get(p, "championId", 0),
     totalMinionsKilled: get(p, "totalMinionsKilled", 0),
+    neutralMinionsKilled: get(p, "neutralMinionsKilled", 0),
     goldEarned: get(p, "goldEarned", 0),
     goldPerMinute: get(p, "goldPerMinute", 0),
     kills: get(p, "kills", 0),

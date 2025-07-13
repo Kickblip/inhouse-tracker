@@ -38,39 +38,39 @@ export default function ExpandedParticipant({ participant }: { participant: Part
 
   const pingStats: PingStat[] = [
     {
-      icon: "/game-resources/Generic_ping.webp",
+      icon: "/game-resources/pings/Generic_ping.webp",
       count: participant.pings.basicPings,
     },
     {
-      icon: "/game-resources/Retreat_ping.webp",
+      icon: "/game-resources/pings/Retreat_ping.webp",
       count: participant.pings.dangerPings,
     },
     {
-      icon: "/game-resources/Push_ping.webp",
+      icon: "/game-resources/pings/Push_ping.webp",
       count: participant.pings.pushPings,
     },
     {
-      icon: "/game-resources/On_My_Way_ping.webp",
+      icon: "/game-resources/pings/On_My_Way_ping.webp",
       count: participant.pings.onMyWayPings,
     },
     {
-      icon: "/game-resources/All_In_ping.webp",
+      icon: "/game-resources/pings/All_In_ping.webp",
       count: participant.pings.allInPings,
     },
     {
-      icon: "/game-resources/Assist_Me_ping.webp",
+      icon: "/game-resources/pings/Assist_Me_ping.webp",
       count: participant.pings.assistMePings,
     },
     {
-      icon: "/game-resources/Need_Vision_ping.webp",
+      icon: "/game-resources/pings/Need_Vision_ping.webp",
       count: participant.pings.needVisionPings,
     },
     {
-      icon: "/game-resources/Enemy_Missing_ping.webp",
+      icon: "/game-resources/pings/Enemy_Missing_ping.webp",
       count: participant.pings.enemyMissingPings,
     },
     {
-      icon: "/game-resources/Enemy_Vision_ping.webp",
+      icon: "/game-resources/pings/Enemy_Vision_ping.webp",
       count: participant.pings.enemyVisionPings,
     },
   ]
@@ -88,7 +88,7 @@ export default function ExpandedParticipant({ participant }: { participant: Part
         <div className="bg-gradient-to-r absolute inset-0 from-transparent via-slate-950/90 to-slate-950 w-full" />
       </div>
       <div className="grid grid-cols-4 w-full z-10">
-        <div className="col-span-1 flex flex-col">
+        <div className="col-span-1 flex flex-col gap-8">
           <div className="flex gap-2">
             <div className="relative">
               <Image
@@ -98,7 +98,15 @@ export default function ExpandedParticipant({ participant }: { participant: Part
                 height={80}
                 className="rounded"
               />
-              <div className="absolute bottom-0 left-0 translate-x-1/2 -mb-1 px-4 py-1 flex items-center justify-center text-xs font-bold text-white bg-slate-900 rounded">
+              <div
+                className="
+                  absolute bottom-0 left-1/2
+                  -translate-x-1/2 translate-y-1/2
+                  px-3 py-0.5 flex items-center justify-center
+                  text-xs font-bold text-white
+                  bg-slate-950 rounded shadow
+                "
+              >
                 {participant.summonerLevel}
               </div>
             </div>
@@ -118,7 +126,7 @@ export default function ExpandedParticipant({ participant }: { participant: Part
         <div className="col-span-2 overflow-y-auto px-4 pb-4">
           <div className="grid grid-cols-3 gap-2 text-xs text-white">
             {stats.map(({ label, value }) => (
-              <div key={label} className="flex justify-between bg-slate-900/50 p-2 rounded">
+              <div key={label} className="flex justify-between bg-slate-950 p-2 rounded">
                 <span className="opacity-70">{label}</span>
                 <span className="font-medium">{value ?? "--"}</span>
               </div>

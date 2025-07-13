@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import SignInButton from "./SignInButton"
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
+import { SignedIn, SignedOut } from "@clerk/nextjs"
 import ImportGameButton from "./ImportGameButton"
 import SearchButton from "./SearchButton"
 
@@ -31,16 +31,15 @@ export default function NavBar() {
           Docs
         </Link>
       </div>
-      <SignedOut>
-        <SignInButton />
-      </SignedOut>
-      <SignedIn>
-        <div className="flex items-center gap-4">
-          {/* <UserButton /> */}
-          <SearchButton />
+      <div className="flex items-center gap-4">
+        <SearchButton />
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
           <ImportGameButton />
-        </div>
-      </SignedIn>
+        </SignedIn>
+      </div>
     </nav>
   )
 }

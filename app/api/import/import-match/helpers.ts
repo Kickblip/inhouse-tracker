@@ -1,4 +1,4 @@
-import { Match, ParticipantPerformanceFull } from "@/types/Match"
+import { Match, ParticipantPerformanceFull, Team } from "@/types/Match"
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const get = <T>(p: any, key: string, fallback: T): T => (p as any)[key] ?? p.challenges?.[key] ?? fallback
@@ -29,6 +29,7 @@ export function toParticipant(p: any): ParticipantPerformanceFull {
     championLevel: get(p, "champLevel", 0),
     championId: get(p, "championId", 0),
     totalMinionsKilled: get(p, "totalMinionsKilled", 0),
+    neutralMinionsKilled: get(p, "neutralMinionsKilled", 0),
     goldEarned: get(p, "goldEarned", 0),
     goldPerMinute: get(p, "goldPerMinute", 0),
     kills: get(p, "kills", 0),
@@ -127,7 +128,6 @@ export function toParticipant(p: any): ParticipantPerformanceFull {
       damageDealtToObjectives: get(p, "damageDealtToObjectives", 0),
       totalAllyJungleMinionsKilled: get(p, "totalAllyJungleMinionsKilled", 0),
       totalEnemyJungleMinionsKilled: get(p, "totalEnemyJungleMinionsKilled", 0),
-      neutralMinionsKilled: get(p, "neutralMinionsKilled", 0),
       baronKills: get(p, "baronKills", 0),
       baronTakedowns: get(p, "baronTakedowns", 0),
       teamBaronKills: get(p, "teamBaronKills", 0),
@@ -195,10 +195,53 @@ export function toParticipant(p: any): ParticipantPerformanceFull {
   }
 }
 
+export function toTeam(t: any): Team {
+  return {
+    bans: t.bans,
+    objectives: {
+      atakhan: {
+        first: t.objectives.atakhan.first,
+        kills: t.objectives.atakhan.kills,
+      },
+      baron: {
+        first: t.objectives.baron.first,
+        kills: t.objectives.baron.kills,
+      },
+      champion: {
+        first: t.objectives.champion.first,
+        kills: t.objectives.champion.kills,
+      },
+      dragon: {
+        first: t.objectives.dragon.first,
+        kills: t.objectives.dragon.kills,
+      },
+      horde: {
+        first: t.objectives.horde.first,
+        kills: t.objectives.horde.kills,
+      },
+      inhibitor: {
+        first: t.objectives.inhibitor.first,
+        kills: t.objectives.inhibitor.kills,
+      },
+      riftHerald: {
+        first: t.objectives.riftHerald.first,
+        kills: t.objectives.riftHerald.kills,
+      },
+      tower: {
+        first: t.objectives.tower.first,
+        kills: t.objectives.tower.kills,
+      },
+    },
+    teamId: t.teamId,
+    win: t.win,
+  }
+}
+
 export function toMatch(raw: any): Match {
   const { metadata, info } = raw
 
   const participants = info.participants.map((p: any) => toParticipant(p))
+  const teams = info.teams.map((t: any) => toTeam(t))
 
   return {
     dataVersion: metadata.dataVersion,
@@ -217,6 +260,7 @@ export function toMatch(raw: any): Match {
       gameStartTimestamp: info.gameStartTimestamp,
       gameEndTimestamp: info.gameEndTimestamp,
     },
+    teams,
   }
 }
 

@@ -34,7 +34,7 @@ export default async function MatchPage({ params }: { params: Promise<{ matchId:
     <div className="flex flex-col max-w-7xl w-full mx-auto font-[family-name:var(--font-geist-sans)]">
       <div className="grid grid-cols-2 gap-1">
         <div className="flex flex-col gap-1">
-          <TeamHeader match={match} />
+          <TeamHeader match={match} orientation="left" />
           {team1.map((participant) => (
             <Participant
               key={participant.participantId}
@@ -46,7 +46,7 @@ export default async function MatchPage({ params }: { params: Promise<{ matchId:
         </div>
 
         <div className="flex flex-col gap-1">
-          <TeamHeader match={match} />
+          <TeamHeader match={match} orientation="right" />
           {team2.map((participant) => (
             <Participant
               key={participant.participantId}
@@ -57,7 +57,7 @@ export default async function MatchPage({ params }: { params: Promise<{ matchId:
           ))}
         </div>
       </div>
-      <div className="mt-1">
+      <div className="mt-4">
         <ExpandedParticipant participant={match.participants[0]} />
       </div>
     </div>

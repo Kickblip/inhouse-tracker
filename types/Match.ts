@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb"
 
 export interface Match extends MatchMetadata {
   participants: ParticipantPerformanceFull[]
+  teams: Team[]
 }
 
 export type DbMatch = Match & { _id: ObjectId }
@@ -23,6 +24,29 @@ export interface MatchMetadata {
     gameStartTimestamp: number
     gameEndTimestamp: number
   }
+}
+
+export interface Team {
+  bans: number[]
+  objectives: Objectives
+  teamId: number
+  win: boolean
+}
+
+export interface Objective {
+  first: boolean
+  kills: number
+}
+
+export interface Objectives {
+  atakhan: Objective
+  baron: Objective
+  champion: Objective
+  dragon: Objective
+  horde: Objective
+  inhibitor: Objective
+  riftHerald: Objective
+  tower: Objective
 }
 
 export interface ParticipantPerformancePreview {
@@ -50,6 +74,7 @@ export interface ParticipantPerformancePreview {
   championLevel: number
   championId: number
   totalMinionsKilled: number
+  neutralMinionsKilled: number
   goldEarned: number
   goldPerMinute: number
   kills: number
@@ -151,7 +176,6 @@ export interface ParticipantPerformanceFull extends ParticipantPerformancePrevie
     damageDealtToObjectives: number
     totalAllyJungleMinionsKilled: number
     totalEnemyJungleMinionsKilled: number
-    neutralMinionsKilled: number
     baronKills: number
     baronTakedowns: number
     teamBaronKills: number
