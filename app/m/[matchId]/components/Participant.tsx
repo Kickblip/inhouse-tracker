@@ -82,8 +82,10 @@ export default function Participant({
 
           {/* CS */}
           <div className="flex flex-col items-center [direction:ltr]">
-            <p className="font-semibold">{participant.totalMinionsKilled}</p>
-            <p className="text-xs opacity-70">{(participant.totalMinionsKilled / (gameLength / 60)).toFixed(1)} CS/min</p>
+            <p className="font-semibold">{participant.totalMinionsKilled + participant.neutralMinionsKilled}</p>
+            <p className="text-xs opacity-70">
+              {((participant.totalMinionsKilled + participant.neutralMinionsKilled) / (gameLength / 60)).toFixed(1)} CS/min
+            </p>
           </div>
 
           {/* Damage */}
