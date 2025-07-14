@@ -4,6 +4,7 @@ import PingsWidget, { PingStat } from "./PingsWidget"
 import SpellCastsWidget from "./SpellCastsWidget"
 import KillStreakWidget from "./KillStreakWidget"
 import DamageBarWidget from "./DamageBarWidget"
+import { FaCoins } from "react-icons/fa6"
 
 export default function ExpandedParticipant({ participant }: { participant: ParticipantPerformanceFull | null }) {
   if (!participant) {
@@ -14,26 +15,48 @@ export default function ExpandedParticipant({ participant }: { participant: Part
       </div>
     )
   }
-  const stats: { label: string; value: number | string | undefined }[] = [
-    { label: "Gold Earned", value: participant.goldEarned },
-    { label: "Gold / Min", value: participant.goldPerMinute.toFixed(1) },
-    { label: "Vision Score", value: participant.visionScore },
-    { label: "Vision Score / Min", value: participant.utility.visionScorePerMinute.toFixed(2) },
-    { label: "Effective Heal + Shield", value: participant.utility.effectiveHealAndShielding },
-    { label: "Control Wards", value: participant.fun.controlWardsPlaced },
-    { label: "Stealth Wards", value: participant.utility.stealthWardsPlaced },
+  const stats: { label: string; value: number | string }[] = [
+    { label: "Largest Killing Spree", value: participant.combat.largestKillingSpree },
+    { label: "Danced with Shelly", value: participant.fun.dancedWithRiftHerald },
+    { label: "Fist Bump Participation", value: participant.fun.fistBumpParticipation },
+    {
+      label: "Longest Time Spent Living",
+      value: new Date(participant.fun.longestTimeSpentLiving * 1000).toISOString().substring(14, 19),
+    },
+
+    {
+      label: "Total Time Spent Dead",
+      value: new Date(participant.fun.totalTimeSpentDead * 1000).toISOString().substring(14, 19),
+    },
+
+    { label: "Skillshots Dodged", value: participant.fun.skillshotsDodged },
+    { label: "Total CC Time Applied", value: participant.fun.timeCCingOthers },
+    { label: "Max CS Advantage", value: participant.laning.maxCsAdvantageOnLaneOpponent },
+    { label: "Kills Near Enemy Turret", value: participant.laning.killsNearEnemyTurret },
+    { label: "Largest Critical Strike", value: participant.fun.largestCriticalStrike },
+
     { label: "Wards Placed", value: participant.utility.wardsPlaced },
-    { label: "Wards Taken", value: participant.utility.wardTakedowns },
-    { label: "Wards Guarded", value: participant.utility.wardsGuarded },
-    { label: "Time CCing Others", value: participant.fun.timeCCingOthers },
-    { label: "Longest Alive (s)", value: participant.fun.longestTimeSpentLiving },
-    { label: "Largest Spree", value: participant.combat.largestKillingSpree },
-    { label: "Dmg Self Mitigated", value: participant.damage.damageSelfMitigated },
-    { label: "% Team Damage", value: (participant.damage.teamDamagePercentage * 100).toFixed(1) + "%" },
-    { label: "Damage To Turrets", value: participant.structures.damageDealtToTurrets },
-    { label: "Turret Takedowns", value: participant.structures.turretTakedowns },
-    { label: "Inhib Takedowns", value: participant.structures.inhibitorTakedowns },
-    { label: "Turret Plates", value: participant.structures.turretPlatesTaken },
+    { label: "Wards Destroyed", value: participant.utility.wardTakedowns },
+    { label: "Vision Score", value: participant.visionScore },
+    { label: "Effective Heal + Shield", value: participant.utility.effectiveHealAndShielding },
+
+    { label: "Epic Monster Steals", value: participant.jungling.epicMonsterSteals },
+    {
+      label: "Earliest Dragon",
+      value: new Date(participant.jungling.earliestDragonTakedown * 1000).toISOString().substring(14, 19),
+    },
+    {
+      label: "Early Gank Kills",
+      value: participant.jungling.killsOnLanersEarlyJungleAsJungler,
+    },
+    { label: "Enemy Jungle Monsters Stolen", value: participant.jungling.totalEnemyJungleMinionsKilled },
+    { label: "Buffs Stolen", value: participant.fun.buffsStolen },
+
+    { label: "Damage to Turrets", value: participant.structures.damageDealtToTurrets },
+    { label: "Inhibitors Destroyed", value: participant.structures.inhibitorTakedowns },
+    { label: "Turrets Destroyed", value: participant.structures.turretTakedowns },
+    { label: "Turret Plates Taken", value: participant.structures.turretPlatesTaken },
+    { label: "Damage Self Mitigated", value: participant.damage.damageSelfMitigated },
   ]
 
   const pingStats: PingStat[] = [
@@ -76,8 +99,8 @@ export default function ExpandedParticipant({ participant }: { participant: Part
   ]
 
   return (
-    <div className="relative h-96 flex w-full bg-slate-950 rounded-lg p-2">
-      <div className="absolute inset-y-0 w-3/5 z-0 left-0">
+    <div className="relative h-96 flex w-full bg-slate-950 rounded-lg py-2 px-4">
+      <div className="absolute inset-y-0 w-2/5 z-0 left-0 [mask-image:linear-gradient(to_right,black_0%,black_0%,transparent_100%)]">
         <Image
           src={`/champion-resources/splash/${participant.championName}.webp`}
           alt=""
@@ -85,10 +108,10 @@ export default function ExpandedParticipant({ participant }: { participant: Part
           priority
           className="object-cover select-none pointer-events-none [transform:scaleX(-1)]"
         />
-        <div className="bg-gradient-to-r absolute inset-0 from-transparent via-slate-950/90 to-slate-950 w-full" />
+        <div className="bg-slate-950/20 absolute inset-0" />
       </div>
       <div className="grid grid-cols-4 w-full z-10">
-        <div className="col-span-1 flex flex-col gap-8">
+        <div className="col-span-1 flex flex-col justify-between pb-6">
           <div className="flex gap-2">
             <div className="relative">
               <Image
@@ -111,8 +134,8 @@ export default function ExpandedParticipant({ participant }: { participant: Part
               </div>
             </div>
             <div className="flex flex-col items-start">
-              <p className="font-semibold text-lg drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1.0)]">{participant.riotIdGameName}</p>
-              <p className="text-xs opacity-70 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1.0)]">#{participant.riotIdTagline}</p>
+              <p className="font-semibold text-2xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1.0)]">{participant.riotIdGameName}</p>
+              <p className="text-sm opacity-70 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1.0)]">#{participant.riotIdTagline}</p>
             </div>
           </div>
           <KillStreakWidget
@@ -121,12 +144,24 @@ export default function ExpandedParticipant({ participant }: { participant: Part
             quadras={participant.combat.quadraKills}
             pentas={participant.combat.pentaKills}
           />
+
+          <div className="flex items-center justify-between bg-slate-950 rounded px-2 py-1 w-48 text-yellow-300">
+            <div className="flex items-center gap-2">
+              <FaCoins className="w-3 h-3" />
+              <span className="font-semibold text-sm">{participant.goldEarned}</span>
+            </div>
+            <p className="font-medium opacity-70 text-white text-xs">({participant.goldPerMinute.toFixed(1)}) /min</p>
+          </div>
         </div>
 
         <div className="col-span-2 overflow-y-auto px-4 pb-4">
           <div className="grid grid-cols-3 gap-2 text-xs text-white">
             {stats.map(({ label, value }) => (
-              <div key={label} className="flex justify-between bg-slate-950 p-2 rounded">
+              <div
+                key={label}
+                className={`flex justify-between p-2 rounded w-full bg-gradient-to-br from-slate-950 via-slate-950 to-blue-950
+                bg-[position:_40%_0%] bg-[size:_200%]`}
+              >
                 <span className="opacity-70">{label}</span>
                 <span className="font-medium">{value ?? "--"}</span>
               </div>
@@ -147,7 +182,7 @@ export default function ExpandedParticipant({ participant }: { participant: Part
               ]}
             />
           </div>
-          <div className="flex flex-col items-center gap-2 mt-4 w-full">
+          <div className="flex flex-col items-center gap-6 mt-6 w-full">
             <div className="flex flex-col w-full gap-1">
               <DamageBarWidget
                 magicDamage={participant.damage.magicDamageDealtToChampions}

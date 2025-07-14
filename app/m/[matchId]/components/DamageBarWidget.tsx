@@ -1,4 +1,4 @@
-const defaultColors = ["bg-indigo-700", "bg-red-900", "bg-zinc-50"]
+const defaultColors = ["bg-blue-900", "bg-red-900", "bg-zinc-100"]
 
 export default function SplitBar({
   magicDamage,

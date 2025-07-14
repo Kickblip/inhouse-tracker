@@ -14,19 +14,19 @@ export default function KillStreakWidget({
   return (
     <div className="flex flex-col items-start gap-1">
       <div className="flex items-center gap-1 bg-slate-950 rounded px-4 py-1">
-        <GiSkullCrack className="" /> <p className="font-semibold text-sm">{doubles}</p>
+        <GiSkullCrack /> <p className="font-semibold text-sm">{doubles}</p>
       </div>
 
       <div className="flex items-center gap-1 bg-slate-950 rounded px-4 py-1">
-        <GiDesertSkull className="" /> <p className="font-semibold text-sm">{triples}</p>
+        <GiDesertSkull /> <p className="font-semibold text-sm">{triples}</p>
       </div>
 
       <div className="flex items-center gap-1 bg-slate-950 rounded px-4 py-1">
-        <GiDaemonSkull className="" /> <p className="font-semibold text-sm">{quadras}</p>
+        <GiDaemonSkull /> <p className="font-semibold text-sm">{quadras}</p>
       </div>
 
       <div className="flex items-center gap-1 bg-slate-950 rounded px-4 py-1">
-        <GiCrownedSkull className="" /> <p className="font-semibold text-sm">{pentas}</p>
+        <GiCrownedSkull /> <p className="font-semibold text-sm">{pentas}</p>
       </div>
     </div>
   )

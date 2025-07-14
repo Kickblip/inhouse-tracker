@@ -31,12 +31,14 @@ export default function TeamHeader({ match, orientation }: { match: Match; orien
           <span className="text-white text-sm font-medium opacity-80">({orientation === "left" ? "Blue" : "Red"} Side)</span>
         </h2>
 
-        {objectivesList.map((objective, index) => (
-          <div key={index} className="flex items-center gap-1">
-            <Image src={objective.icon} alt="" className="invert" width={15} height={15} />
-            <span className={`text-sm font-semibold`}>{objective.count}</span>
-          </div>
-        ))}
+        <div className="flex items-center gap-3">
+          {objectivesList.map((objective, index) => (
+            <div key={index} className="flex items-center gap-1">
+              <Image src={objective.icon} alt="" className="invert" width={18} height={18} />
+              <span className="text-sm font-semibold">{objective.count}</span>
+            </div>
+          ))}
+        </div>
       </div>
       {orientation === "right" && (
         <h3 className="text-2xl font-semibold">{secondsToDurationString(match.timestamps.gameDuration)}</h3>
