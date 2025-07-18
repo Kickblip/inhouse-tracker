@@ -1,3 +1,5 @@
+"use server"
+
 import clientPromise from "@/lib/mongodb"
 import { DbMatch } from "@/types/Match"
 
@@ -27,7 +29,7 @@ export async function getMatch(match_id: string) {
     const mongodb = await clientPromise
     const collection = mongodb.db("match_service").collection<DbMatch>("matches")
 
-    const match = await collection.findOne({ matchId: match_id })
+    const match = await collection.findOne({ matchId: match_id }, { projection: { _id: 0, __v: 0 } })
 
     if (!match) {
       return { success: false, error: "Match not found" }
@@ -40,10 +42,4 @@ export async function getMatch(match_id: string) {
     }
     return { success: false, error: errorMessage }
   }
-}
-
-export const secondsToDurationString = (raw: number) => {
-  const m = Math.floor(raw / 60)
-  const s = raw % 60
-  return `${m}:${s.toString().padStart(2, "0")}`
 }

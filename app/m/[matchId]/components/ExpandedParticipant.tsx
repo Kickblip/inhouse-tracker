@@ -31,14 +31,14 @@ export default function ExpandedParticipant({ participant }: { participant: Part
 
     { label: "Skillshots Dodged", value: participant.fun.skillshotsDodged },
     { label: "Total CC Time Applied", value: participant.fun.timeCCingOthers },
-    { label: "Max CS Advantage", value: participant.laning.maxCsAdvantageOnLaneOpponent },
+    { label: "Max CS Advantage", value: participant.laning.maxCsAdvantageOnLaneOpponent.toFixed(0) },
     { label: "Kills Near Enemy Turret", value: participant.laning.killsNearEnemyTurret },
     { label: "Largest Critical Strike", value: participant.fun.largestCriticalStrike },
 
     { label: "Wards Placed", value: participant.utility.wardsPlaced },
     { label: "Wards Destroyed", value: participant.utility.wardTakedowns },
     { label: "Vision Score", value: participant.visionScore },
-    { label: "Effective Heal + Shield", value: participant.utility.effectiveHealAndShielding },
+    { label: "Effective Heal + Shield", value: participant.utility.effectiveHealAndShielding.toFixed(0) },
 
     { label: "Epic Monster Steals", value: participant.jungling.epicMonsterSteals },
     {

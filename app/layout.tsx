@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import NavBar from "./shared/NavBar"
 import { ClerkProvider } from "@clerk/nextjs"
+import GlobalBanner from "./shared/GlobalBanner"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,8 @@ export default function RootLayout({
                       [webkit-mask-image:linear-gradient(to_bottom,black_20%,transparent)]"
           />
           {children}
+
+          <GlobalBanner />
         </body>
       </html>
     </ClerkProvider>

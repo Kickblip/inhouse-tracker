@@ -1,6 +1,11 @@
 import { Match } from "@/types/Match"
-import { secondsToDurationString } from "../actions"
 import Image from "next/image"
+
+export const secondsToDurationString = (raw: number) => {
+  const m = Math.floor(raw / 60)
+  const s = raw % 60
+  return `${m}:${s.toString().padStart(2, "0")}`
+}
 
 export default function TeamHeader({ match, orientation }: { match: Match; orientation: "left" | "right" }) {
   const objectives = orientation === "left" ? match.teams[0].objectives : match.teams[1].objectives

@@ -1,7 +1,7 @@
 export default function SpellCastsWidget({ casts }: { casts: number[] }) {
   return (
     <div className="flex flex-col items-center gap-2">
-      <p className="text-xs font-semibold opacity-70">Total Spell Casts: {casts[0]}</p>
+      <p className="text-xs font-semibold opacity-70 text-center">Total Spell Casts: {casts[0]}</p>
       <div className="grid grid-cols-2 gap-2">
         <div
           className="flex flex-col items-center rounded w-14 h-14 flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-950 to-blue-950

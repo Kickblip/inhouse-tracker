@@ -1,9 +1,7 @@
 import { Match } from "@/types/Match"
 import { getMatch, getMatchSlugs } from "./actions"
 import { notFound } from "next/navigation"
-import Participant from "./components/Participant"
-import TeamHeader from "./components/TeamHeader"
-import ExpandedParticipant from "./components/ExpandedParticipant"
+import PageLayout from "./PageLayout"
 
 export async function generateStaticParams() {
   const response = await getMatchSlugs()
@@ -27,39 +25,5 @@ export default async function MatchPage({ params }: { params: Promise<{ matchId:
     notFound()
   }
 
-  const team1 = match.participants.slice(0, match.participants.length / 2)
-  const team2 = match.participants.slice(match.participants.length / 2)
-
-  return (
-    <div className="flex flex-col max-w-7xl w-full mx-auto font-[family-name:var(--font-geist-sans)]">
-      <div className="grid grid-cols-2 gap-1">
-        <div className="flex flex-col gap-1">
-          <TeamHeader match={match} orientation="left" />
-          {team1.map((participant) => (
-            <Participant
-              key={participant.participantId}
-              participant={participant}
-              gameLength={match.timestamps.gameDuration}
-              orientation="left"
-            />
-          ))}
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <TeamHeader match={match} orientation="right" />
-          {team2.map((participant) => (
-            <Participant
-              key={participant.participantId}
-              participant={participant}
-              gameLength={match.timestamps.gameDuration}
-              orientation="right"
-            />
-          ))}
-        </div>
-      </div>
-      <div className="mt-4">
-        <ExpandedParticipant participant={match.participants[0]} />
-      </div>
-    </div>
-  )
+  return <PageLayout match={match} />
 }
