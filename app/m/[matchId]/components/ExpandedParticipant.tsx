@@ -16,9 +16,9 @@ export default function ExpandedParticipant({ participant }: { participant: Part
     )
   }
   const stats: { label: string; value: number | string }[] = [
-    { label: "Largest Killing Spree", value: participant.combat.largestKillingSpree },
-    { label: "Danced with Shelly", value: participant.fun.dancedWithRiftHerald },
-    { label: "Fist Bump Participation", value: participant.fun.fistBumpParticipation },
+    { label: "Largest Killing Spree", value: participant.combat.largestKillingSpree || "--" },
+    { label: "Danced with Shelly", value: participant.fun.dancedWithRiftHerald || "--" },
+    { label: "Fist Bump Participation", value: participant.fun.fistBumpParticipation || "--" },
     {
       label: "Longest Time Spent Living",
       value: new Date(participant.fun.longestTimeSpentLiving * 1000).toISOString().substring(14, 19),
@@ -29,34 +29,40 @@ export default function ExpandedParticipant({ participant }: { participant: Part
       value: new Date(participant.fun.totalTimeSpentDead * 1000).toISOString().substring(14, 19),
     },
 
-    { label: "Skillshots Dodged", value: participant.fun.skillshotsDodged },
-    { label: "Total CC Time Applied", value: participant.fun.timeCCingOthers },
-    { label: "Max CS Advantage", value: participant.laning.maxCsAdvantageOnLaneOpponent.toFixed(0) },
-    { label: "Kills Near Enemy Turret", value: participant.laning.killsNearEnemyTurret },
-    { label: "Largest Critical Strike", value: participant.fun.largestCriticalStrike },
+    { label: "Skillshots Dodged", value: participant.fun.skillshotsDodged || "--" },
+    { label: "Total CC Time Applied", value: participant.fun.timeCCingOthers || "--" },
+    { label: "Max CS Advantage", value: participant.laning.maxCsAdvantageOnLaneOpponent.toFixed(0) || "--" },
+    { label: "Kills Near Enemy Turret", value: participant.laning.killsNearEnemyTurret || "--" },
+    { label: "Largest Critical Strike", value: participant.fun.largestCriticalStrike || "--" },
 
-    { label: "Wards Placed", value: participant.utility.wardsPlaced },
-    { label: "Wards Destroyed", value: participant.utility.wardTakedowns },
-    { label: "Vision Score", value: participant.visionScore },
-    { label: "Effective Heal + Shield", value: participant.utility.effectiveHealAndShielding.toFixed(0) },
+    { label: "Wards Placed", value: participant.utility.wardsPlaced || "--" },
+    { label: "Wards Destroyed", value: participant.utility.wardTakedowns || "--" },
+    { label: "Vision Score", value: participant.visionScore || "--" },
+    {
+      label: "Effective Heal + Shield",
+      value:
+        participant.utility.effectiveHealAndShielding.toFixed(0) === "0"
+          ? "--"
+          : participant.utility.effectiveHealAndShielding.toFixed(0),
+    },
 
-    { label: "Epic Monster Steals", value: participant.jungling.epicMonsterSteals },
+    { label: "Epic Monster Steals", value: participant.jungling.epicMonsterSteals || "--" },
     {
       label: "Earliest Dragon",
-      value: new Date(participant.jungling.earliestDragonTakedown * 1000).toISOString().substring(14, 19),
+      value: new Date(participant.jungling.earliestDragonTakedown * 1000).toISOString().substring(14, 19) || "--",
     },
     {
       label: "Early Gank Kills",
-      value: participant.jungling.killsOnLanersEarlyJungleAsJungler,
+      value: participant.jungling.killsOnLanersEarlyJungleAsJungler || "--",
     },
-    { label: "Enemy Jungle Monsters Stolen", value: participant.jungling.totalEnemyJungleMinionsKilled },
-    { label: "Buffs Stolen", value: participant.fun.buffsStolen },
+    { label: "Enemy Jungle Monsters Stolen", value: participant.jungling.totalEnemyJungleMinionsKilled || "--" },
+    { label: "Buffs Stolen", value: participant.fun.buffsStolen || "--" },
 
-    { label: "Damage to Turrets", value: participant.structures.damageDealtToTurrets },
-    { label: "Inhibitors Destroyed", value: participant.structures.inhibitorTakedowns },
-    { label: "Turrets Destroyed", value: participant.structures.turretTakedowns },
-    { label: "Turret Plates Taken", value: participant.structures.turretPlatesTaken },
-    { label: "Damage Self Mitigated", value: participant.damage.damageSelfMitigated },
+    { label: "Damage to Turrets", value: participant.structures.damageDealtToTurrets || "--" },
+    { label: "Inhibitors Destroyed", value: participant.structures.inhibitorTakedowns || "--" },
+    { label: "Turrets Destroyed", value: participant.structures.turretTakedowns || "--" },
+    { label: "Turret Plates Taken", value: participant.structures.turretPlatesTaken || "--" },
+    { label: "Damage Self Mitigated", value: participant.damage.damageSelfMitigated || "--" },
   ]
 
   const pingStats: PingStat[] = [

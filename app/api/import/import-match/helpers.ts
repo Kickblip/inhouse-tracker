@@ -3,7 +3,7 @@ import { Match, ParticipantPerformanceFull, Team } from "@/types/Match"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const get = <T>(p: any, key: string, fallback: T): T => (p as any)[key] ?? p.challenges?.[key] ?? fallback
 
-export function toParticipant(p: any): ParticipantPerformanceFull {
+export function toParticipant(p: any, gameDuration: number): ParticipantPerformanceFull {
   return {
     puuid: get(p, "puuid", ""),
     participantId: get(p, "participantId", 0),
@@ -71,7 +71,7 @@ export function toParticipant(p: any): ParticipantPerformanceFull {
       summoner1Id: get(p, "summoner1Id", 0),
       summoner2Casts: get(p, "summoner2Casts", 0),
       summoner2Id: get(p, "summoner2Id", 0),
-      longestTimeSpentLiving: get(p, "longestTimeSpentLiving", 0),
+      longestTimeSpentLiving: get(p, "deaths", 0) === 0 ? gameDuration : get(p, "longestTimeSpentLiving", 0),
       buffsStolen: get(p, "buffsStolen", 0),
       controlWardsPlaced: get(p, "controlWardsPlaced", 0),
       skillshotsDodged: get(p, "skillshotsDodged", 0),
@@ -240,7 +240,7 @@ export function toTeam(t: any): Team {
 export function toMatch(raw: any): Match {
   const { metadata, info } = raw
 
-  const participants = info.participants.map((p: any) => toParticipant(p))
+  const participants = info.participants.map((p: any) => toParticipant(p, info.gameDuration))
   const teams = info.teams.map((t: any) => toTeam(t))
 
   return {

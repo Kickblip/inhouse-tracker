@@ -1,3 +1,4 @@
+import { Match } from "@/types/Match"
 import Image from "next/image"
 
 export function MatchupLine({
@@ -22,8 +23,18 @@ export function MatchupLine({
         <p className="opacity-80">{BluePlayerKDA.join("/")}</p>
       </div>
       <div className="flex items-center gap-2 flex-none">
-        <Image src={`/champion-resources/squares/${BlueChampion}Square.webp`} alt="" width={40} height={40} />
-        <Image src={`/champion-resources/squares/${RedChampion}Square.webp`} alt="" width={40} height={40} />
+        <Image
+          src={`https://ddragon.leagueoflegends.com/cdn/${process.env.NEXT_PUBLIC_PATCH_VERSION}/img/champion/${BlueChampion}.png`}
+          alt={BlueChampion}
+          width={40}
+          height={40}
+        />
+        <Image
+          src={`https://ddragon.leagueoflegends.com/cdn/${process.env.NEXT_PUBLIC_PATCH_VERSION}/img/champion/${RedChampion}.png`}
+          alt={RedChampion}
+          width={40}
+          height={40}
+        />
       </div>
       <div className="flex flex-1 flex-col text-left pl-3">
         <p className="font-semibold truncate">{RedPlayer}</p>
@@ -33,7 +44,26 @@ export function MatchupLine({
   )
 }
 
-export default function RecentlyAddedGame() {
+function timeAgo(msSinceEpoch: number): string {
+  const diffMs = Date.now() - msSinceEpoch
+
+  const seconds = Math.floor(diffMs / 1_000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+  const days = Math.floor(hours / 24)
+
+  const rtf = new Intl.RelativeTimeFormat(undefined, { numeric: "auto" })
+
+  if (days) return rtf.format(-days, "day") // “2 days ago”
+  if (hours) return rtf.format(-hours, "hour") // “an hour ago”
+  if (minutes) return rtf.format(-minutes, "minute")
+  return rtf.format(-seconds, "second") // “just now”
+}
+
+export default function RecentlyAddedGame({ match }: { match: Match }) {
+  const team1 = match.participants.slice(0, match.participants.length / 2)
+  const team2 = match.participants.slice(match.participants.length / 2)
+
   return (
     <div
       className="
@@ -47,49 +77,20 @@ export default function RecentlyAddedGame() {
       <div className="py-3 px-6 flex flex-col gap-2 h-full">
         <div className="flex item-center justify-between text-sm">
           <h2 className="font-bold">Recent Game</h2>
-          <p className="opacity-80">2 hours ago</p>
+          <p className="opacity-80">{timeAgo(match.timestamps.gameEndTimestamp)}</p>
         </div>
         <div className="h-full">
-          <MatchupLine
-            BluePlayer="Player1"
-            RedPlayer="Player2"
-            BluePlayerKDA={[10, 12, 2]}
-            RedPlayerKDA={[4, 2, 4]}
-            BlueChampion="Aatrox"
-            RedChampion="Ahri"
-          />
-          <MatchupLine
-            BluePlayer="Player3"
-            RedPlayer="Player4"
-            BluePlayerKDA={[8, 1, 1]}
-            RedPlayerKDA={[5, 3, 2]}
-            BlueChampion="Akali"
-            RedChampion="Akshan"
-          />
-          <MatchupLine
-            BluePlayer="Player5"
-            RedPlayer="Player6"
-            BluePlayerKDA={[3, 2, 1]}
-            RedPlayerKDA={[3, 5, 2]}
-            BlueChampion="Alistar"
-            RedChampion="Ambessa"
-          />
-          <MatchupLine
-            BluePlayer="Player7"
-            RedPlayer="Player8"
-            BluePlayerKDA={[15, 0, 0]}
-            RedPlayerKDA={[15, 5, 0]}
-            BlueChampion="Amumu"
-            RedChampion="Anivia"
-          />
-          <MatchupLine
-            BluePlayer="Player9"
-            RedPlayer="Player10"
-            BluePlayerKDA={[15, 0, 0]}
-            RedPlayerKDA={[15, 5, 0]}
-            BlueChampion="Annie"
-            RedChampion="Aphelios"
-          />
+          {team1.map((_, idx) => (
+            <MatchupLine
+              key={idx}
+              BluePlayer={team1[idx].riotIdGameName}
+              RedPlayer={team2[idx].riotIdGameName}
+              BluePlayerKDA={[team1[idx].kills, team1[idx].deaths, team1[idx].assists]}
+              RedPlayerKDA={[team2[idx].kills, team2[idx].deaths, team2[idx].assists]}
+              BlueChampion={team1[idx].championName}
+              RedChampion={team2[idx].championName}
+            />
+          ))}
         </div>
       </div>
     </div>
