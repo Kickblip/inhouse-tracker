@@ -108,13 +108,12 @@ export default function ExpandedParticipant({ participant }: { participant: Part
     <div className="relative h-96 flex w-full bg-slate-950 rounded-lg py-2 px-4">
       <div className="absolute inset-y-0 w-2/5 z-0 left-0 [mask-image:linear-gradient(to_right,black_0%,black_0%,transparent_100%)]">
         <Image
-          src={`/champion-resources/splash/${participant.championName}.webp`}
+          src={`https://ddragon.leagueoflegends.com/cdn/img/champion/centered/${participant.championName}_0.jpg`}
           alt=""
           fill
           priority
-          className="object-cover select-none pointer-events-none [transform:scaleX(-1)]"
+          className="object-cover select-none pointer-events-none"
         />
-        <div className="bg-slate-950/20 absolute inset-0" />
       </div>
       <div className="grid grid-cols-4 w-full z-10">
         <div className="col-span-1 flex flex-col justify-between pb-6">
