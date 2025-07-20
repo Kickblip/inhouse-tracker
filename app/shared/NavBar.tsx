@@ -27,9 +27,9 @@ export default function NavBar() {
         >
           LoL Guesser
         </Link>
-        <Link href="/docs" className="opacity-90 hover:opacity-100 transition-all duration-200">
+        {/* <Link href="/docs" className="opacity-90 hover:opacity-100 transition-all duration-200">
           Docs
-        </Link>
+        </Link> */}
       </div>
       <div className="flex items-center gap-4">
         <SearchButton />

@@ -4,11 +4,10 @@ import { LeaderboardEntry } from "@/types/Leaderboard"
 export default function PodiumPosition({ rank, entry, statLabel }: { rank: number; entry: LeaderboardEntry; statLabel: string }) {
   return (
     <div
-      className={`flex flex-col w-full h-96 relative rounded-lg
-        bg-gradient-to-br from-slate-950 via-slate-950 to-orange-800 bg-[position:_40%_0%]
-        bg-gradient-to-br from-yellow-700 to-yellow-800
+      className={`flex flex-col h-96 relative rounded-lg bg-gradient-to-br from-slate-950 via-slate-950
+        to-orange-800 bg-[position:_40%_0%] bg-gradient-to-br from-yellow-700 to-yellow-800
         hover:bg-[position:_100%_100%] bg-[size:_200%] transition-all duration-300 hover:scale-102
-        ${rank === 1 ? "" : ""}`}
+        ${rank === 1 ? "w-2/4 " : "w-1/4"}`}
     >
       <div className="absolute inset-0 z-0">
         <Image
@@ -25,7 +24,7 @@ export default function PodiumPosition({ rank, entry, statLabel }: { rank: numbe
         <h2 className="text-lg text-white/70 font-semibold">
           {entry.value.toLocaleString("en-US")} {statLabel}
         </h2>
-        <h1 className="text-5xl font-bold text-wrap break-words">{entry.riotIdGameName}</h1>
+        <h1 className={`font-bold text-wrap break-words ${rank === 1 ? "text-7xl " : "text-2xl"}`}>{entry.riotIdGameName}</h1>
       </div>
     </div>
   )

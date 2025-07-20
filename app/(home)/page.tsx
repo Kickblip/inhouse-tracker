@@ -2,7 +2,7 @@ import RecentlyAddedGame from "./components/RecentlyAddedGame"
 import InhouseChampion from "./components/InhouseChampion"
 import InhouseChallenger from "./components/InhouseChallenger"
 import InhouseCompetitor from "./components/InhouseCompetitor"
-import InhouseLeagueLeaderboardRow from "./components/InhouseLeagueLeaderboardRow"
+// import InhouseLeagueLeaderboardRow from "./components/InhouseLeagueLeaderboardRow"
 import { getRecentMatches } from "./actions"
 import Error from "@/app/shared/Error"
 

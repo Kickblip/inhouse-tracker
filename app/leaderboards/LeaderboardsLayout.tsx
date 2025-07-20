@@ -32,8 +32,8 @@ export default function LeaderboardsLayout({ rankings }: { rankings: Leaderboard
 
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
-          <PodiumPosition rank={2} entry={rows[1]} statLabel={activeTab.replace(/_/g, " ")} />
           <PodiumPosition rank={1} entry={rows[0]} statLabel={activeTab.replace(/_/g, " ")} />
+          <PodiumPosition rank={2} entry={rows[1]} statLabel={activeTab.replace(/_/g, " ")} />
           <PodiumPosition rank={3} entry={rows[2]} statLabel={activeTab.replace(/_/g, " ")} />
         </div>
 
