@@ -21,11 +21,11 @@ export default function PodiumPosition({ rank, entry, statLabel }: { rank: numbe
       </div>
       <h1 className="z-10 text-transparent font-extrabold font-sans text-9xl bg-white/20 bg-clip-text px-4">{rank}</h1>
 
-      <div className="flex flex-col absolute bottom-0 left-0 p-4">
+      <div className="flex w-full flex-col absolute bottom-0 left-0 p-4">
         <h2 className="text-lg text-white/70 font-semibold">
           {entry.value.toLocaleString("en-US")} {statLabel}
         </h2>
-        <h1 className="text-5xl font-bold text-wrap">{entry.riotIdGameName}</h1>
+        <h1 className="text-5xl font-bold text-wrap break-words">{entry.riotIdGameName}</h1>
       </div>
     </div>
   )
