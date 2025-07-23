@@ -15,7 +15,7 @@ export async function getProfileSlugs() {
       return { success: false, error: "No players found" }
     }
 
-    const slugs = puuids.map((p) => ({ puuid: p }))
+    const slugs = puuids.map((p) => ({ puuid: p.substring(0, 14) })) // shorten PUUID for slug
 
     return { success: true, data: slugs }
   } catch (error) {
@@ -32,7 +32,7 @@ export async function getProfile(puuid: string) {
     const collection = mongodb.db("match_service").collection<DbMatch>("matches")
 
     const matches = await collection
-      .find({ "participants.puuid": puuid })
+      .find({ "participants.puuid": new RegExp(`^${puuid.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`) })
       .sort({ "timestamps.gameCreation": -1 })
       .project({
         _id: 0,
@@ -48,10 +48,12 @@ export async function getProfile(puuid: string) {
       return { success: false, error: "No matches for that player" }
     }
 
-    const me = matches[0].participants.find((p: ParticipantPerformanceFull) => p.puuid === puuid) as ParticipantPerformanceFull
+    const me = matches[0].participants.find((p: ParticipantPerformanceFull) =>
+      p.puuid.startsWith(puuid),
+    ) as ParticipantPerformanceFull
 
     const matchSummaries: PlayerMatchSummary[] = matches.map((m) => {
-      const p = (m.participants as ParticipantPerformanceFull[]).find((pp) => pp.puuid === puuid)!
+      const p = (m.participants as ParticipantPerformanceFull[]).find((pp) => pp.puuid.startsWith(puuid))!
       return {
         matchId: m.matchId,
         gameMode: m.gameMode,
