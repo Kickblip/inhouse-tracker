@@ -27,7 +27,7 @@ export default async function MatchPage({ params }: { params: Promise<{ puuid: s
   }
 
   return (
-    <div className="flex flex-col max-w-7xl w-full mx-auto font-[family-name:var(--font-geist-sans)] gap-4">
+    <div className="flex flex-col max-w-5xl w-full mx-auto font-[family-name:var(--font-geist-sans)] gap-6">
       <div className="flex items-center gap-4">
         <div className="relative">
           <Image
@@ -53,7 +53,7 @@ export default async function MatchPage({ params }: { params: Promise<{ puuid: s
           {profile.riotIdGameName} <span className="text-xl font-semibold text-white/80">#{profile.riotIdTagline}</span>
         </h2>
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-2">
         <div className="w-1/4 bg-slate-800 rounded-lg p-4"></div>
         <div className="w-3/4 rounded-lg flex flex-col gap-2 bg-slate-950 py-2 px-4">
           {profile.matches.map((match, idx) => (

@@ -1,5 +1,6 @@
 import { ParticipantPerformanceFull } from "@/types/Match"
 import Image from "next/image"
+import { FaCoins } from "react-icons/fa6"
 
 export default function Participant({
   participant,
@@ -82,7 +83,9 @@ export default function Participant({
 
           {/* CS */}
           <div className="flex flex-col items-center [direction:ltr]">
-            <p className="font-semibold">{participant.totalMinionsKilled + participant.neutralMinionsKilled}</p>
+            <p className="font-semibold flex items-center">
+              {participant.totalMinionsKilled + participant.neutralMinionsKilled} <FaCoins className="w-3 h-3 ml-1" />
+            </p>
             <p className="text-xs opacity-70">
               {((participant.totalMinionsKilled + participant.neutralMinionsKilled) / (gameLength / 60)).toFixed(1)} CS/min
             </p>

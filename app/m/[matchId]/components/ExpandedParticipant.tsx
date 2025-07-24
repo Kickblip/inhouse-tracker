@@ -4,7 +4,8 @@ import PingsWidget, { PingStat } from "./PingsWidget"
 import SpellCastsWidget from "./SpellCastsWidget"
 import KillStreakWidget from "./KillStreakWidget"
 import DamageBarWidget from "./DamageBarWidget"
-import { FaCoins } from "react-icons/fa6"
+import { FaCoins, FaCircleInfo } from "react-icons/fa6"
+import Link from "next/link"
 
 export default function ExpandedParticipant({ participant }: { participant: ParticipantPerformanceFull | null }) {
   if (!participant) {
@@ -141,6 +142,13 @@ export default function ExpandedParticipant({ participant }: { participant: Part
             <div className="flex flex-col items-start">
               <p className="font-semibold text-2xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1.0)]">{participant.riotIdGameName}</p>
               <p className="text-sm opacity-70 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1.0)]">#{participant.riotIdTagline}</p>
+              <Link
+                href={`/p/${participant.puuid.substring(0, 14)}`}
+                className="px-3 py-1.5 bg-indigo-600 mt-1 hover:bg-indigo-700 transition-colors duration-300
+                          rounded text-xs cursor-pointer flex font-medium text-white items-center gap-2"
+              >
+                View Profile <FaCircleInfo />
+              </Link>
             </div>
           </div>
           <KillStreakWidget

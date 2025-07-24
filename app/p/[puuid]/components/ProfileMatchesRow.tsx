@@ -1,6 +1,8 @@
 import DamageBarWidget from "@/app/m/[matchId]/components/DamageBarWidget"
 import { PlayerMatchSummary } from "@/types/Player"
 import Image from "next/image"
+import Link from "next/link"
+import { FaCoins } from "react-icons/fa6"
 
 function timeAgo(msSinceEpoch: number): string {
   const diffMs = Date.now() - msSinceEpoch
@@ -30,7 +32,8 @@ export default function ProfileMatchesRow({ match }: { match: PlayerMatchSummary
   const summonerSpells = [match.summoner1Id, match.summoner2Id]
 
   return (
-    <div
+    <Link
+      href={`/m/${match.matchId}`}
       className={`flex items-center px-4 py-2 w-full overflow-hidden rounded-lg ${
         match.win ? "bg-blue-950/80" : "bg-red-950/80"
       }`}
@@ -47,17 +50,18 @@ export default function ProfileMatchesRow({ match }: { match: PlayerMatchSummary
             {secondsToDurationString(match.gameDuration)}
           </p>
         </div>
+
         {/* Player Icon */}
-        <div className="relative">
+        <div className="relative pl-3">
           <Image
             src={`https://ddragon.leagueoflegends.com/cdn/${process.env.NEXT_PUBLIC_PATCH_VERSION}/img/champion/${match.championName}.png`}
             alt=""
-            width={40}
-            height={40}
+            width={50}
+            height={50}
             className="rounded"
           />
           <div
-            className="absolute bottom-0 -mb-1 left-0 -ml-1 w-5 h-5 flex items-center justify-center
+            className="absolute bottom-0 -mb-1 left-0 ml-1 w-5 h-5 flex items-center justify-center
                   text-xs font-bold text-white bg-slate-950 rounded"
           >
             {match.championLevel}
@@ -79,10 +83,10 @@ export default function ProfileMatchesRow({ match }: { match: PlayerMatchSummary
             ))}
           </div>
 
-          <div className="w-0.5 rounded-lg bg-slate-700 h-10 mx-2"></div>
+          <div className="w-0.5 rounded-lg bg-white/20 h-10 mx-2"></div>
 
           {/* Items */}
-          <div className="grid grid-cols-3 [direction:ltr]">
+          <div className="grid grid-cols-3">
             {items.map((item, index) => (
               <Image
                 key={index}
@@ -116,7 +120,7 @@ export default function ProfileMatchesRow({ match }: { match: PlayerMatchSummary
         </div>
 
         {/* KDA */}
-        <div className="flex flex-col items-center [direction:ltr]">
+        <div className="flex flex-col items-center">
           <p className="font-semibold">
             {match.kills} / {match.deaths} / {match.assists}
           </p>
@@ -124,25 +128,32 @@ export default function ProfileMatchesRow({ match }: { match: PlayerMatchSummary
         </div>
 
         {/* CS */}
-        <div className="flex flex-col items-center [direction:ltr]">
-          <p className="font-semibold">{match.totalMinionsKilled + match.neutralMinionsKilled}</p>
+        <div className="flex flex-col items-center">
+          <p className="font-semibold flex items-center">
+            {match.totalMinionsKilled + match.neutralMinionsKilled} <FaCoins className="w-3 h-3 ml-1" />
+          </p>
           <p className="text-xs opacity-70">
             {((match.totalMinionsKilled + match.neutralMinionsKilled) / (match.gameDuration / 60)).toFixed(1)} CS/min
           </p>
         </div>
 
         {/* Damage */}
-        <div className="flex flex-col items-center [direction:ltr]">
-          <p className="font-semibold">{match.totalDamageDealtToChampions.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
-          <p className="text-xs opacity-70">{(match.totalDamageDealtToChampions / (match.gameDuration / 60)).toFixed(1)} /min</p>
+        <div className="flex flex-col col-span-2 gap-1 pl-2">
+          <DamageBarWidget
+            magicDamage={match.magicDamageDealtToChampions}
+            physicalDamage={match.physicalDamageDealtToChampions}
+            trueDamage={match.trueDamageDealtToChampions}
+          />
+          <div className="flex items-center justify-between w-full">
+            <p className="text-xs text-white/70">
+              {match.totalDamageDealtToChampions.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            </p>
+            <p className="text-xs text-white/70">
+              {(match.totalDamageDealtToChampions / (match.gameDuration / 60)).toFixed(1)} /min
+            </p>
+          </div>
         </div>
-
-        <DamageBarWidget
-          magicDamage={match.magicDamageDealtToChampions}
-          physicalDamage={match.physicalDamageDealtToChampions}
-          trueDamage={match.trueDamageDealtToChampions}
-        />
       </div>
-    </div>
+    </Link>
   )
 }
