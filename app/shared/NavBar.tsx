@@ -3,7 +3,7 @@ import Link from "next/link"
 import SignInButton from "./SignInButton"
 import { SignedIn, SignedOut } from "@clerk/nextjs"
 import ImportGameButton from "./ImportGameButton"
-import SearchButton from "./SearchButton"
+// import SearchButton from "./SearchButton"
 
 export default function NavBar() {
   return (
@@ -32,7 +32,7 @@ export default function NavBar() {
         </Link> */}
       </div>
       <div className="flex items-center gap-4">
-        <SearchButton />
+        {/* <SearchButton /> */}
         <SignedOut>
           <SignInButton />
         </SignedOut>

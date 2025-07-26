@@ -66,7 +66,7 @@ export default function ProfileOverview({ profile }: { profile: PlayerProfile })
 
       <OverviewCell label="Average KDA">
         <div className="flex flex-col items-center">
-          <p className="font-semibold">{avgKda.toFixed(2)}</p>
+          <p className="font-semibold">{avgKda.toFixed(2)} KDA</p>
           <p className="text-sm text-white/70">
             {avgKills.toFixed(1)}/{avgDeaths.toFixed(1)}/{avgAssists.toFixed(1)}
           </p>
@@ -74,7 +74,7 @@ export default function ProfileOverview({ profile }: { profile: PlayerProfile })
       </OverviewCell>
 
       <OverviewCell label="Win Rate by Champion">
-        <ul>
+        <ul className="flex flex-col gap-1">
           {championEntries
             .sort((a, b) => b.games - a.games)
             .map(({ champion, games, winRate }) => (
@@ -84,7 +84,7 @@ export default function ProfileOverview({ profile }: { profile: PlayerProfile })
                   alt=""
                   width={35}
                   height={35}
-                  className="rounded-lg"
+                  className="rounded"
                 />
                 <p className="font-medium text-sm">
                   {winRate.toFixed(1)}%{" "}
