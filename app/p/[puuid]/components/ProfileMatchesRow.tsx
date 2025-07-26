@@ -34,7 +34,7 @@ export default function ProfileMatchesRow({ match }: { match: PlayerMatchSummary
   return (
     <Link
       href={`/m/${match.matchId}`}
-      className={`flex items-center px-4 py-2 w-full overflow-hidden rounded-lg ${
+      className={`flex items-center px-4 py-3 w-full overflow-hidden rounded-lg ${
         match.win ? "bg-blue-950/80" : "bg-red-950/80"
       }`}
     >

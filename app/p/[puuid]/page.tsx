@@ -3,6 +3,25 @@ import { getProfile, getProfileSlugs } from "./actions"
 import { notFound } from "next/navigation"
 import Image from "next/image"
 import ProfileMatchesRow from "./components/ProfileMatchesRow"
+import { Metadata } from "next"
+import ProfileOverview from "./components/ProfileOverview"
+
+export async function generateMetadata({ params }: { params: Promise<{ puuid: string }> }): Promise<Metadata> {
+  const { puuid } = await params
+  const response = await getProfile(puuid)
+  const profile = response.data
+
+  if (!response.success || !profile) {
+    return {
+      title: "Profile not found",
+    }
+  }
+
+  return {
+    title: `${profile.riotIdGameName} | Inhouse Tracker`,
+    description: `${profile.riotIdGameName} profile`,
+  }
+}
 
 export async function generateStaticParams() {
   const response = await getProfileSlugs()
@@ -53,9 +72,11 @@ export default async function MatchPage({ params }: { params: Promise<{ puuid: s
           {profile.riotIdGameName} <span className="text-xl font-semibold text-white/80">#{profile.riotIdTagline}</span>
         </h2>
       </div>
-      <div className="flex gap-2">
-        <div className="w-1/4 bg-slate-800 rounded-lg p-4"></div>
-        <div className="w-3/4 rounded-lg flex flex-col gap-2 bg-slate-950 py-2 px-4">
+      <div className="min-h-[70vh] flex gap-2">
+        <div className="w-1/4">
+          <ProfileOverview profile={profile} />
+        </div>
+        <div className="w-3/4 flex flex-col gap-2">
           {profile.matches.map((match, idx) => (
             <ProfileMatchesRow key={idx} match={match} />
           ))}
