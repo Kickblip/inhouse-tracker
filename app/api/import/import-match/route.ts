@@ -50,7 +50,13 @@ export async function POST(req: NextRequest) {
     console.error("Failed to insert match into database:", formattedMatch.matchId)
     return NextResponse.json({ error: "Failed to insert match into database" }, { status: 500 })
   }
+
   revalidatePath(`/m/${formattedMatch.matchId}`)
+  revalidatePath("/leaderboards/[category]", "page")
+  const puuids = formattedMatch.participants.map((p) => p.puuid)
+  for (const puuid of puuids) {
+    revalidatePath(`/p/${puuid.substring(0, 14)}`)
+  }
 
   return NextResponse.json({ status: 200 })
 }
