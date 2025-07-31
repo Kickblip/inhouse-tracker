@@ -4,6 +4,7 @@ import "./globals.css"
 import NavBar from "./shared/NavBar"
 import { ClerkProvider } from "@clerk/nextjs"
 import GlobalBanner from "./shared/GlobalBanner"
+import { Analytics } from "@vercel/analytics/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,7 @@ export default function RootLayout({
           {children}
 
           <GlobalBanner />
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>

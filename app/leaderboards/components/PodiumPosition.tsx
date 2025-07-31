@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { LeaderboardEntry } from "@/types/Leaderboard"
+import Link from "next/link"
 
 export default function PodiumPosition({ rank, entry, statLabel }: { rank: number; entry: LeaderboardEntry; statLabel: string }) {
   return (
@@ -24,7 +25,12 @@ export default function PodiumPosition({ rank, entry, statLabel }: { rank: numbe
         <h2 className="text-lg text-white/70 font-semibold">
           {entry.value.toLocaleString("en-US")} {statLabel}
         </h2>
-        <h1 className={`font-bold text-wrap break-words ${rank === 1 ? "text-7xl " : "text-2xl"}`}>{entry.riotIdGameName}</h1>
+        <Link
+          href={`/p/${entry.puuid.substring(0, 14)}`}
+          className={`font-bold text-wrap break-words ${rank === 1 ? "text-7xl " : "text-2xl"}`}
+        >
+          {entry.riotIdGameName}
+        </Link>
       </div>
     </div>
   )

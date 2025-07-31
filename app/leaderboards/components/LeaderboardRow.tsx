@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { LeaderboardEntry } from "@/types/Leaderboard"
+import Link from "next/link"
 
 export default function LeaderboardRow({ rank, entry, statLabel }: { rank: number; entry: LeaderboardEntry; statLabel: string }) {
   return (
@@ -23,10 +24,10 @@ export default function LeaderboardRow({ rank, entry, statLabel }: { rank: numbe
           </div>
         </div>
 
-        <p className="truncate">
+        <Link href={`/p/${entry.puuid.substring(0, 14)}`} className="truncate cursor-pointer">
           {entry.riotIdGameName}
           <span className="ml-0.5 text-gray-400 text-xs">#{entry.riotIdTagline}</span>
-        </p>
+        </Link>
       </div>
 
       <div className="flex items-center gap-12">
