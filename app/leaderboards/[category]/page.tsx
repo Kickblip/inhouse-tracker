@@ -18,7 +18,7 @@ export default async function Leaderboard({ params }: { params: Promise<{ catego
   const rows = rankings[current] ?? []
 
   return (
-    <div className="max-w-7xl w-full mx-auto font-[family-name:var(--font-geist-sans)] min-h-screen pb-16">
+    <div className="max-w-7xl w-full mx-auto font-[family-name:var(--font-geist-sans)] min-h-screen">
       <div className="w-full grid grid-cols-[20%_80%] gap-2">
         <div className="w-full rounded-lg bg-slate-950/50 flex flex-col p-2 gap-1">
           <h1 className="font-semibold text-white/90 px-1 py-2">Leaderboards</h1>

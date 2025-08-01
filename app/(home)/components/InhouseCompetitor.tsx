@@ -2,11 +2,13 @@ import Image from "next/image"
 import Link from "next/link"
 
 export default function InhouseCompetitor({
+  puuid,
   playerName,
   gamesWon,
   gamesLost,
   points,
 }: {
+  puuid: string
   playerName: string
   gamesWon: number
   gamesLost: number
@@ -26,7 +28,7 @@ export default function InhouseCompetitor({
         3
       </span>
 
-      <Link href="/ionia">
+      <Link href={`/p/${puuid.substring(0, 14)}`}>
         <Image
           src="/champion-resources/regions/noxus-city.png"
           alt=""

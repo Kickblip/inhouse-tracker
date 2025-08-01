@@ -15,18 +15,21 @@ export default async function InhouseLeagueLeaderboard() {
   return (
     <div className="flex flex-col gap-4 z-10">
       <InhouseChampion
+        puuid={players[0].puuid}
         playerName={players[0].riotIdGameName}
         gamesWon={players[0].gamesWon}
         gamesLost={players[0].gamesLost}
         points={players[0].pointHistory.reduce((acc, curr) => acc + curr, 0)}
       />
       <InhouseChallenger
+        puuid={players[1].puuid}
         playerName={players[1].riotIdGameName}
         gamesWon={players[1].gamesWon}
         gamesLost={players[1].gamesLost}
         points={players[1].pointHistory.reduce((acc, curr) => acc + curr, 0)}
       />
       <InhouseCompetitor
+        puuid={players[2].puuid}
         playerName={players[2].riotIdGameName}
         gamesWon={players[2].gamesWon}
         gamesLost={players[2].gamesLost}
@@ -35,6 +38,7 @@ export default async function InhouseLeagueLeaderboard() {
       {players.slice(3).map((player, index) => (
         <InhouseLeagueLeaderboardRow
           key={player.puuid}
+          puuid={player.puuid}
           rank={index + 4}
           playerName={player.riotIdGameName}
           mmr={player.pointHistory.reduce((acc, curr) => acc + curr, 0)}

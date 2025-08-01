@@ -3,11 +3,13 @@ import Link from "next/link"
 import { FaCrown } from "react-icons/fa6"
 
 export default function InhouseChampion({
+  puuid,
   playerName,
   gamesWon,
   gamesLost,
   points,
 }: {
+  puuid: string
   playerName: string
   gamesWon: number
   gamesLost: number
@@ -37,7 +39,7 @@ export default function InhouseChampion({
         <FaCrown className="w-4 h-4 ml-2" />
       </div>
 
-      <Link href="/ionia">
+      <Link href={`/p/${puuid.substring(0, 14)}`}>
         <Image
           src="/champion-resources/regions/ionia-swords.jpg"
           alt=""

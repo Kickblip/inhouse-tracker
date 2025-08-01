@@ -2,11 +2,13 @@ import Image from "next/image"
 import Link from "next/link"
 
 export default function InhouseChallenger({
+  puuid,
   playerName,
   gamesWon,
   gamesLost,
   points,
 }: {
+  puuid: string
   playerName: string
   gamesWon: number
   gamesLost: number
@@ -27,7 +29,7 @@ export default function InhouseChallenger({
         2
       </span>
 
-      <Link href="/ionia">
+      <Link href={`/p/${puuid.substring(0, 14)}`}>
         <Image
           src="/champion-resources/regions/jungle-generic.png"
           alt=""

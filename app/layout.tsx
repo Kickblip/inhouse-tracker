@@ -38,7 +38,7 @@ export default function RootLayout({
                       [mask-image:linear-gradient(to_bottom,black_20%,transparent)]
                       [webkit-mask-image:linear-gradient(to_bottom,black_20%,transparent)]"
           />
-          {children}
+          <div className="mb-16">{children}</div>
 
           <GlobalBanner />
           <Analytics />
