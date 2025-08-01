@@ -6,14 +6,14 @@ export default function InhouseLeagueLeaderboardRow({
   mmr,
   winrate,
   gamesPlayed,
-  championIcon,
+  champion,
 }: {
   rank: number
   playerName: string
   mmr: number
-  winrate: number
+  winrate: string
   gamesPlayed: number
-  championIcon: string
+  champion: string
 }) {
   return (
     <div
@@ -24,13 +24,13 @@ export default function InhouseLeagueLeaderboardRow({
         <div className="flex items-center gap-4">
           <p className="opacity-60 font-bold text-xl">{rank}</p>
           <Image
-            src={`/champion-resources/squares/${championIcon}Square.webp`}
+            src={`https://ddragon.leagueoflegends.com/cdn/${process.env.NEXT_PUBLIC_PATCH_VERSION}/img/champion/${champion}.png`}
             alt=""
-            width={30}
-            height={30}
-            className="rounded-full"
+            width={35}
+            height={35}
+            className="rounded-lg"
           />
-          <h2 className="font-bold text-xl truncate">{playerName}</h2>
+          <h2 className="font-bold text-lg truncate">{playerName}</h2>
         </div>
         <div className="flex items-center gap-6">
           <p className="font-bold text-lg">
@@ -43,7 +43,7 @@ export default function InhouseLeagueLeaderboardRow({
           </p>
 
           <p className="font-bold text-lg">
-            {mmr} <span className="opacity-60 font-semibold text-sm">ILMMR</span>
+            {mmr} <span className="opacity-60 font-semibold text-sm">MMR</span>
           </p>
         </div>
       </div>

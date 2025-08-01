@@ -2,7 +2,17 @@ import Image from "next/image"
 import Link from "next/link"
 import { FaCrown } from "react-icons/fa6"
 
-export default function InhouseChampion() {
+export default function InhouseChampion({
+  playerName,
+  gamesWon,
+  gamesLost,
+  points,
+}: {
+  playerName: string
+  gamesWon: number
+  gamesLost: number
+  points: number
+}) {
   return (
     <div
       className="relative w-full h-[350px] rounded-lg 
@@ -52,22 +62,22 @@ export default function InhouseChampion() {
           <div className="flex gap-8 items-center">
             <div className="flex flex-col space-y-1">
               <p className="opacity-70 font-bold">Winrate</p>
-              <h2 className="text-5xl font-extrabold">72%</h2>
+              <h2 className="text-5xl font-extrabold">{((gamesWon / (gamesWon + gamesLost)) * 100 || 0).toFixed(0)}%</h2>
             </div>
             <div className="flex flex-col space-y-1">
               <p className="opacity-70 font-bold">Played</p>
-              <h2 className="text-5xl font-extrabold">52</h2>
+              <h2 className="text-5xl font-extrabold">{gamesWon + gamesLost}</h2>
             </div>
             <div className="flex flex-col space-y-1">
-              <p className="opacity-70 font-bold">ILMMR</p>
-              <h2 className="text-5xl font-extrabold">1550</h2>
+              <p className="opacity-70 font-bold">MMR</p>
+              <h2 className="text-5xl font-extrabold">{points}</h2>
             </div>
           </div>
         </div>
 
         <div className="absolute bottom-0 left-0 z-20 py-6 px-8 font-[family-name:var(--font-geist-sans)] text-left select-none">
           <h2 className="opacity-70 text-xl font-bold ml-1">Inhouse Champion</h2>
-          <h3 className="text-8xl font-extrabold">PLAYER</h3>
+          <h3 className="text-8xl font-extrabold">{playerName}</h3>
         </div>
       </Link>
     </div>

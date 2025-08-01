@@ -29,3 +29,16 @@ export interface LeaderboardEntry {
   createdAt: number
   value: number | string
 }
+
+export interface InhouseLeaguePlayer {
+  puuid: string
+  riotIdGameName: string
+  riotIdTagline: string
+  pointHistory: number[]
+  gamesPlayed: number
+  gamesWon: number
+  gamesLost: number
+  recentChampionNames: string[]
+  recentMatches: string[]
+  lastPlayedAt: Date
+}

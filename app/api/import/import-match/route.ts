@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server"
 import { auth, clerkClient } from "@clerk/nextjs/server"
 import { Match } from "@/types/Match"
-import { toMatch, fetchWithRetry } from "./helpers"
+import { toMatch, fetchWithRetry, upsertLeagueForMatch } from "./helpers"
 import clientPromise from "@/lib/mongodb"
 import { revalidatePath } from "next/cache"
 
@@ -50,6 +50,8 @@ export async function POST(req: NextRequest) {
     console.error("Failed to insert match into database:", formattedMatch.matchId)
     return NextResponse.json({ error: "Failed to insert match into database" }, { status: 500 })
   }
+
+  await upsertLeagueForMatch(formattedMatch)
 
   revalidatePath(`/m/${formattedMatch.matchId}`)
   revalidatePath("/leaderboards/[category]", "page")

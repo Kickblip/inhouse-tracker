@@ -3,9 +3,40 @@ import Link from "next/link"
 import SignInButton from "./SignInButton"
 import { SignedIn, SignedOut } from "@clerk/nextjs"
 import ImportGameButton from "./ImportGameButton"
-// import SearchButton from "./SearchButton"
+import SearchButton from "./SearchButton"
+import clientPromise from "@/lib/mongodb"
+import { DbMatch } from "@/types/Match"
 
-export default function NavBar() {
+const getUsers = async () => {
+  "use server"
+
+  const mongodb = await clientPromise
+  const collection = mongodb.db("match_service").collection<DbMatch>("matches")
+
+  const pipeline = [
+    { $unwind: "$participants" },
+    {
+      $group: {
+        _id: "$participants.puuid",
+        gameName: { $first: "$participants.riotIdGameName" },
+        tagline: { $first: "$participants.riotIdTagline" },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        puuid: "$_id",
+        gameName: { $concat: ["$gameName", "#", "$tagline"] },
+      },
+    },
+    { $sort: { gameName: 1 } },
+  ]
+
+  return collection.aggregate<{ gameName: string; puuid: string }>(pipeline).toArray()
+}
+
+export default async function NavBar() {
+  const players = await getUsers()
   return (
     <nav className="flex items-center justify-between p-1 max-w-7xl w-full mx-auto font-bold text-md font-[family-name:var(--font-geist-sans)]">
       <div className="flex items-center gap-12">
@@ -32,7 +63,7 @@ export default function NavBar() {
         </Link> */}
       </div>
       <div className="flex items-center gap-4">
-        {/* <SearchButton /> */}
+        <SearchButton players={players} />
         <SignedOut>
           <SignInButton />
         </SignedOut>

@@ -1,7 +1,17 @@
 import Image from "next/image"
 import Link from "next/link"
 
-export default function InhouseCompetitor() {
+export default function InhouseCompetitor({
+  playerName,
+  gamesWon,
+  gamesLost,
+  points,
+}: {
+  playerName: string
+  gamesWon: number
+  gamesLost: number
+  points: number
+}) {
   return (
     <div
       className="relative w-full h-[200px] rounded-lg 
@@ -41,22 +51,22 @@ export default function InhouseCompetitor() {
           <div className="flex gap-8 items-center ml-1">
             <div className="flex flex-col">
               <p className="opacity-70 text-sm font-bold">Winrate</p>
-              <h2 className="text-2xl font-extrabold">72%</h2>
+              <h2 className="text-2xl font-extrabold">{((gamesWon / (gamesWon + gamesLost)) * 100 || 0).toFixed(0)}%</h2>
             </div>
             <div className="flex flex-col">
               <p className="opacity-70 text-sm font-bold">Played</p>
-              <h2 className="text-2xl font-extrabold">52</h2>
+              <h2 className="text-2xl font-extrabold">{gamesWon + gamesLost}</h2>
             </div>
             <div className="flex flex-col">
-              <p className="opacity-70 text-sm font-bold">ILMMR</p>
-              <h2 className="text-2xl font-extrabold">1430</h2>
+              <p className="opacity-70 text-sm font-bold">MMR</p>
+              <h2 className="text-2xl font-extrabold">{points}</h2>
             </div>
           </div>
         </div>
 
         <div className="absolute bottom-0 left-0 py-3 px-8 font-[family-name:var(--font-geist-sans)] text-left select-none">
           <h2 className="opacity-70 text-lg font-bold ml-1">Inhouse Competitor</h2>
-          <h3 className="text-7xl font-extrabold">PLAYER</h3>
+          <h3 className="text-7xl font-extrabold">{playerName}</h3>
         </div>
       </Link>
     </div>

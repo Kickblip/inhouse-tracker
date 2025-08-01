@@ -1,4 +1,7 @@
 import { Match, ParticipantPerformanceFull, Team } from "@/types/Match"
+import clientPromise from "@/lib/mongodb"
+import { Collection, Db } from "mongodb"
+import { InhouseLeaguePlayer } from "@/types/Leaderboard"
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const get = <T>(p: any, key: string, fallback: T): T => (p as any)[key] ?? p.challenges?.[key] ?? fallback
@@ -276,3 +279,69 @@ export async function fetchWithRetry(url: string, opts: RequestInit, retries = 3
   throw new Error("Exceeded retry budget (429)")
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
+
+function basePoints(p: ParticipantPerformanceFull) {
+  return 5 + (p.win ? 3 : 0)
+}
+
+function milestonePoints(p: ParticipantPerformanceFull, minutes: number) {
+  let m = 0
+  if (p.utility.visionScore >= 60) m++
+  if (p.utility.visionScorePerMinute >= 1.5) m++
+  if (p.utility.wardsPlaced + p.utility.wardsKilled >= 30) m++
+  if (p.utility.saveAllyFromDeath >= 1) m++
+  if (p.assists >= 25) m++
+  if (p.fun.controlWardsPlaced >= 5) m++
+
+  if (p.jungling.riftHeraldTakedowns >= 1) m++
+  if (p.jungling.initialBuffCount >= 3) m++
+  if (p.jungling.scuttleCrabKills >= 4) m++
+  if (p.jungling.objectivesStolen >= 1 || p.jungling.epicMonsterSteals >= 1) m++
+
+  if (p.structures.turretPlatesTaken >= 3) m++
+
+  if (p.kda >= 5) m++
+  if (p.deaths <= 1) m++
+  if (p.combat.pentaKills >= 1) m++
+  if (p.combat.soloKills >= 2) m++
+  if ((p.totalMinionsKilled + p.neutralMinionsKilled) / minutes >= 8) m++
+  if (p.laning.firstBloodKill || p.laning.firstBloodAssist) m++
+  return m
+}
+
+export async function upsertLeagueForMatch(match: Match) {
+  const client = await clientPromise
+  const db: Db = client.db("match_service")
+  const league: Collection<InhouseLeaguePlayer> = db.collection("league")
+
+  const minutes = match.timestamps.gameDuration / 60
+  const matchId = match.matchId
+  const endedAt = new Date(match.timestamps.gameEndTimestamp ?? match.timestamps.gameCreation)
+
+  for (const p of match.participants as ParticipantPerformanceFull[]) {
+    const pointsEarned = (basePoints(p) + milestonePoints(p, minutes)) * 10
+
+    await league.updateOne(
+      { puuid: p.puuid },
+      {
+        $set: {
+          puuid: p.puuid,
+          riotIdGameName: p.riotIdGameName,
+          riotIdTagline: p.riotIdTagline,
+          lastPlayedAt: endedAt,
+        },
+        $push: {
+          pointHistory: pointsEarned,
+          recentMatches: matchId,
+          recentChampionNames: p.championName,
+        },
+        $inc: {
+          gamesPlayed: 1,
+          gamesWon: p.win ? 1 : 0,
+          gamesLost: p.win ? 0 : 1,
+        },
+      },
+      { upsert: true },
+    )
+  }
+}
