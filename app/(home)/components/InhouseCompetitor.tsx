@@ -16,7 +16,7 @@ export default function InhouseCompetitor({
 }) {
   return (
     <div
-      className="relative w-full h-[200px] rounded-lg 
+      className="relative w-full h-[180px] md:h-[200px] rounded-lg 
         bg-gradient-to-br from-slate-950 via-slate-950 to-orange-800 bg-[position:_40%_0%] hover:bg-[position:_100%_100%] bg-[size:_200%] transition-all duration-300
         group hover:scale-102"
     >
@@ -42,7 +42,7 @@ export default function InhouseCompetitor({
           alt=""
           width={640 * 0.7}
           height={378 * 0.7}
-          className="absolute bottom-0 right-0 pointer-events-none select-none z-20 
+          className="hidden md:block absolute bottom-0 right-0 pointer-events-none select-none z-20 
             [mask-image:linear-gradient(to_right,transparent_0%,black_40%,black_100%)]
             [--webkit-mask-image:linear-gradient(to_right,transparent_0%,black_40%,black_100%)]
             group-hover:scale-103 transition-transform duration-300"
@@ -68,7 +68,7 @@ export default function InhouseCompetitor({
 
         <div className="absolute bottom-0 left-0 py-3 px-8 font-[family-name:var(--font-geist-sans)] text-left select-none">
           <h2 className="opacity-70 text-lg font-bold ml-1">Inhouse Competitor</h2>
-          <h3 className="text-7xl font-extrabold">{playerName}</h3>
+          <h3 className="text-3xl md:text-7xl font-extrabold">{playerName}</h3>
         </div>
       </Link>
     </div>

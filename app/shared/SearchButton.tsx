@@ -28,7 +28,7 @@ export default function SearchButton({ players }: { players: { gameName: string;
       {open && (
         <div
           onClick={() => setOpen(false)}
-          className="fixed inset-0 z-50 flex items-start justify-center pt-40
+          className="fixed inset-0 z-50 flex items-start justify-center px-4 md:px-0 pt-40
                      backdrop-blur-sm bg-slate-950/50"
         >
           <div onClick={(e) => e.stopPropagation()} className="w-full max-w-lg rounded-xl bg-slate-900/90 px-4 py-2">

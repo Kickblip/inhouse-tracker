@@ -26,7 +26,7 @@ export default function InhouseLeagueLeaderboardRow({
                 flex items-center justify-between py-3 px-4"
     >
       <div className="flex items-center gap-4">
-        <p className="opacity-60 font-bold text-xl">{rank}</p>
+        <p className="opacity-60 font-bold text-md md:text-xl">{rank}</p>
         <Image
           src={`https://ddragon.leagueoflegends.com/cdn/${process.env.NEXT_PUBLIC_PATCH_VERSION}/img/champion/${champion}.png`}
           alt=""
@@ -34,19 +34,19 @@ export default function InhouseLeagueLeaderboardRow({
           height={35}
           className="rounded-lg"
         />
-        <h2 className="font-semibold text-lg truncate">{playerName}</h2>
+        <h2 className="font-semibold text-sm md:text-lg truncate">{playerName}</h2>
       </div>
       <div className="flex items-center gap-6">
-        <p className="font-bold text-lg">
+        <p className="hidden md:block font-bold text-xs md:text-lg">
           {gamesPlayed}
           <span className="opacity-60 font-semibold text-sm ml-1">PLAYED</span>
         </p>
 
-        <p className="font-bold text-lg">
+        <p className="font-bold text-xs md:text-lg">
           {winrate}% <span className="opacity-60 font-semibold text-sm">WR</span>
         </p>
 
-        <p className="font-bold text-lg">
+        <p className="font-bold text-xs md:text-lg">
           {mmr} <span className="opacity-60 font-semibold text-sm">MMR</span>
         </p>
       </div>

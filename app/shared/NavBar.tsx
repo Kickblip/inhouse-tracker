@@ -38,10 +38,11 @@ const getUsers = async () => {
 export default async function NavBar() {
   const players = await getUsers()
   return (
-    <nav className="flex items-center justify-between p-1 max-w-7xl w-full mx-auto font-bold text-md font-[family-name:var(--font-geist-sans)]">
-      <div className="flex items-center gap-12">
-        <Link href="/" className="flex items-center gap-4 select-none">
-          <Image src="/logo.png" alt="Logo" width={70} height={70} />
+    <nav className="flex items-center justify-between py-4 md:py-1 px-2 md:px-1 max-w-7xl w-full mx-auto font-bold text-md font-[family-name:var(--font-geist-sans)]">
+      <div className="flex items-center gap-6 md:gap-12">
+        <Link href="/" className="flex items-center select-none">
+          <Image src="/logo.png" className="hidden md:block" alt="Logo" width={70} height={70} />
+          <Image src="/logo.png" className="md:hidden" alt="Logo" width={45} height={45} />
           {/* <h1 className="text-2xl font-extrabold">Inhouse Tracker</h1> */}
         </Link>
 
@@ -53,7 +54,7 @@ export default async function NavBar() {
         </Link> */}
         <Link
           href="https://guesser.inhousetracker.com"
-          className="opacity-90 hover:opacity-100 transition-all duration-200"
+          className="hidden md:block opacity-90 hover:opacity-100 transition-all duration-200"
           target="_blank"
         >
           LoL Guesser
@@ -64,12 +65,14 @@ export default async function NavBar() {
       </div>
       <div className="flex items-center gap-4">
         <SearchButton players={players} />
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <ImportGameButton />
-        </SignedIn>
+        <div className="hidden md:flex">
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <ImportGameButton />
+          </SignedIn>
+        </div>
       </div>
     </nav>
   )

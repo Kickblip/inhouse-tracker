@@ -14,7 +14,7 @@ export default function PageLayout({ match }: { match: Match }) {
 
   return (
     <div className="flex flex-col max-w-7xl w-full mx-auto font-[family-name:var(--font-geist-sans)]">
-      <div className="grid grid-cols-2 gap-1">
+      <div className="flex flex-col md:grid grid-cols-2 gap-1">
         <div className="flex flex-col gap-1">
           <TeamHeader match={match} orientation="left" />
           {team1.map((participant) => (
@@ -33,7 +33,7 @@ export default function PageLayout({ match }: { match: Match }) {
           ))}
         </div>
       </div>
-      <div className="mt-4">
+      <div className="hidden md:block mt-4">
         <ExpandedParticipant participant={selectedParticipant} />
       </div>
     </div>

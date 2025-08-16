@@ -54,7 +54,14 @@ export default async function MatchPage({ params }: { params: Promise<{ puuid: s
             alt=""
             width={80}
             height={80}
-            className="rounded-lg"
+            className="hidden md:block rounded-lg"
+          />
+          <Image
+            src={`https://ddragon.leagueoflegends.com/cdn/${process.env.NEXT_PUBLIC_PATCH_VERSION}/img/profileicon/${profile.profileIcon}.png`}
+            alt=""
+            width={55}
+            height={55}
+            className="md:hidden rounded-lg"
           />
           <div
             className="
@@ -68,15 +75,15 @@ export default async function MatchPage({ params }: { params: Promise<{ puuid: s
             {profile.summonerLevel}
           </div>
         </div>
-        <h2 className="text-4xl font-semibold">
+        <h2 className="text-xl md:text-4xl font-semibold">
           {profile.riotIdGameName} <span className="text-xl font-semibold text-white/80">#{profile.riotIdTagline}</span>
         </h2>
       </div>
-      <div className="min-h-[70vh] flex gap-2">
-        <div className="w-1/4">
+      <div className="min-h-[70vh] flex flex-col md:flex-row gap-2">
+        <div className="w-full md:w-1/4">
           <ProfileOverview profile={profile} />
         </div>
-        <div className="w-3/4 flex flex-col gap-2">
+        <div className="w-full md:w-3/4 flex flex-col gap-2">
           {profile.matches.map((match, idx) => (
             <ProfileMatchesRow key={idx} match={match} />
           ))}

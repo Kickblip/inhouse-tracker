@@ -38,9 +38,9 @@ export default function ProfileMatchesRow({ match }: { match: PlayerMatchSummary
         match.win ? "bg-blue-950/80" : "bg-red-950/80"
       }`}
     >
-      <div className="grid grid-cols-8 w-full items-center">
+      <div className="flex gap-6 md:gap-0 md:grid grid-cols-8 w-full items-center">
         {/* Game Info */}
-        <div className="flex flex-col items-center">
+        <div className="hidden md:flex flex-col items-center">
           <p className="text-sm font-semibold">
             {match.gameMode.toLowerCase().charAt(0).toUpperCase() + match.gameMode.toLowerCase().slice(1)}
           </p>
@@ -52,7 +52,7 @@ export default function ProfileMatchesRow({ match }: { match: PlayerMatchSummary
         </div>
 
         {/* Player Icon */}
-        <div className="relative pl-3">
+        <div className="col-span-1 relative pl-3">
           <Image
             src={`https://ddragon.leagueoflegends.com/cdn/${process.env.NEXT_PUBLIC_PATCH_VERSION}/img/champion/${match.championName}.png`}
             alt=""
@@ -70,7 +70,7 @@ export default function ProfileMatchesRow({ match }: { match: PlayerMatchSummary
 
         <div className="flex items-center mx-auto col-span-2">
           {/* Summoner Spells */}
-          <div className="flex flex-col items-center">
+          <div className="hidden md:flex flex-col items-center">
             {summonerSpells.map((spell, index) => (
               <Image
                 key={index}
@@ -83,10 +83,10 @@ export default function ProfileMatchesRow({ match }: { match: PlayerMatchSummary
             ))}
           </div>
 
-          <div className="w-0.5 rounded-lg bg-white/20 h-10 mx-2"></div>
+          <div className="hidden md:block w-0.5 rounded-lg bg-white/20 h-10 mx-2"></div>
 
           {/* Items */}
-          <div className="grid grid-cols-3">
+          <div className="hidden md:grid grid-cols-3">
             {items.map((item, index) => (
               <Image
                 key={index}
@@ -105,7 +105,7 @@ export default function ProfileMatchesRow({ match }: { match: PlayerMatchSummary
 
           {/* Ward Type */}
 
-          <div className="relative">
+          <div className="hidden md:block relative">
             <Image
               src={`https://ddragon.leagueoflegends.com/cdn/${process.env.NEXT_PUBLIC_PATCH_VERSION}/img/item/${match.item6}.png`}
               alt=""
@@ -138,7 +138,7 @@ export default function ProfileMatchesRow({ match }: { match: PlayerMatchSummary
         </div>
 
         {/* Damage */}
-        <div className="flex flex-col col-span-2 gap-1 pl-2">
+        <div className="hidden md:flex flex-col col-span-2 gap-1 pl-2">
           <DamageBarWidget
             magicDamage={match.magicDamageDealtToChampions}
             physicalDamage={match.physicalDamageDealtToChampions}

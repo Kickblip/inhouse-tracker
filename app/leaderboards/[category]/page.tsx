@@ -19,7 +19,7 @@ export default async function Leaderboard({ params }: { params: Promise<{ catego
 
   return (
     <div className="max-w-7xl w-full mx-auto font-[family-name:var(--font-geist-sans)] min-h-screen">
-      <div className="w-full grid grid-cols-[20%_80%] gap-2">
+      <div className="w-full grid grid-cols-1 md:grid-cols-[20%_80%] gap-2">
         <div className="w-full rounded-lg bg-slate-950/50 flex flex-col p-2 gap-1">
           <h1 className="font-semibold text-white/90 px-1 py-2">Leaderboards</h1>
           {categories.map((cat, idx) => (
@@ -36,7 +36,7 @@ export default async function Leaderboard({ params }: { params: Promise<{ catego
         </div>
 
         <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col md:flex-row items-center gap-2">
             <PodiumPosition rank={1} entry={rows[0]} statLabel={category.replace(/_/g, " ")} />
             <PodiumPosition rank={2} entry={rows[1]} statLabel={category.replace(/_/g, " ")} />
             <PodiumPosition rank={3} entry={rows[2]} statLabel={category.replace(/_/g, " ")} />
